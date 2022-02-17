@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getData = async (done) => {
@@ -11,6 +11,8 @@ const getData = async (done) => {
         console.error(e);
     }
 }
+
+
 
 class FeedScreen extends Component {
     constructor(props){
@@ -30,10 +32,29 @@ class FeedScreen extends Component {
             });
         });  
     }
+    
+    logout = () => {
+        fetch('http://localhost:3333/api/1.0.0/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+            
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            this.props.navigation.navigate("Login");
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+    
 
     render(){
 
-        const nav = this.props.navigation
 
         if(this.state.isLoading){
             return (
@@ -49,7 +70,12 @@ class FeedScreen extends Component {
                     
                     <Text>Login id: {this.state.login_info.id}</Text>
                     <Text>Login token: {this.state.login_info.token}</Text>
-
+                    
+                    <Button
+                    style = {styles.buttonStyle}
+                    title="Log Out"
+                    onPress={() => this.logout()}
+                    />
                     
 
                     
@@ -61,5 +87,25 @@ class FeedScreen extends Component {
         }
     } 
 }
+
+const styles = StyleSheet.create({
+    flexContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'space-around', 
+        alignItems: 'flex-start' 
+    },
+
+    buttonStyle: {
+        width: 50,
+        height: 50,
+        alignItems: 'center'
+        
+    },
+
+    inputStyle: {
+        
+    }
+});
 
 export default FeedScreen;

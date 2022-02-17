@@ -45,7 +45,6 @@ class LoginScreen extends Component {
 
   render() {
 
-    const nav = this.props.navigation
     return (
         <View style={styles.flexContainer} >
 

@@ -14,7 +14,8 @@ class App extends Component {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Feed" component={FeedScreen} />
+          <Stack.Screen name="Feed" component={FeedScreen} options={{
+          headerLeft: null}} />
           <Stack.Screen name="Signup" component={SignupScreen} />
           
         </Stack.Navigator>
