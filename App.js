@@ -5,16 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
 
-import FeedScreen from './components/feed';
+import HomeScreen from './components/home';
 import SignupScreen from './components/signup';
 import LoginScreen from './components/login';
 
-import ProfileScreen from './components/profile';
-import RequestsScreen from './components/requests';
-import SearchScreen from './components/search';
-
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 class App extends Component {
   render(){
@@ -22,7 +17,7 @@ class App extends Component {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Feed" component={FeedScreen} options={{
+            <Stack.Screen name="Home" component={HomeScreen} options={{
             headerLeft: null}} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             

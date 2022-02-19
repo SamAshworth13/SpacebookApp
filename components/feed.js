@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
 const getData = async (done) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@spacebook_details')
@@ -13,7 +15,6 @@ const getData = async (done) => {
 }
 
 
-
 class FeedScreen extends Component {
     constructor(props){
         super(props);
@@ -23,6 +24,8 @@ class FeedScreen extends Component {
             isLoading: true
         }
     }
+
+    
 
     componentDidMount(){
         getData((data) => {
@@ -63,6 +66,9 @@ class FeedScreen extends Component {
         else{
 
             console.log("here", this.state);
+
+            
+
             return (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text>My Feed</Text>
@@ -76,9 +82,8 @@ class FeedScreen extends Component {
                     onPress={() => this.logout()}
                     />
                     
-
-                    
                 </View>
+                
             );
 
             

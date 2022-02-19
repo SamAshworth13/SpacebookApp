@@ -36,7 +36,7 @@ class LoginScreen extends Component {
     .then((json) => {
         console.log(json);
         storeData(json);
-        this.props.navigation.navigate("Feed");
+        this.props.navigation.navigate("Home");
     })
     .catch((error) => {
         console.error(error);
