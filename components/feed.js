@@ -70,19 +70,9 @@ class FeedScreen extends Component {
             
 
             return (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>My Feed</Text>
-                    
-                    <Text>Login id: {this.state.login_info.id}</Text>
-                    <Text>Login token: {this.state.login_info.token}</Text>
-                    
-                    <Button
-                    style = {styles.buttonStyle}
-                    title="Log Out"
-                    onPress={() => this.logout()}
-                    />
-                    
-                </View>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Feed</Text>
+            </View>
                 
             );
 
@@ -94,7 +84,7 @@ class FeedScreen extends Component {
 
 const styles = StyleSheet.create({
     flexContainer: {
-        flex: 1,
+        flex: 9,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
         alignItems: 'flex-start' 
@@ -107,8 +97,11 @@ const styles = StyleSheet.create({
         
     },
 
-    inputStyle: {
-        
+    headerStyle: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'space-around', 
+        alignItems: 'flex-start' 
     }
 });
 

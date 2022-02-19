@@ -76,7 +76,7 @@ class HomeScreen extends Component {
             
 
             return (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flex: 1, alignItems: 'space-around', justifyContent: 'space-around' }}>
                     
                     <Button
                     style = {styles.buttonStyle}
