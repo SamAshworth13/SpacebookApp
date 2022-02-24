@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getData = async (done) => {
@@ -75,7 +75,11 @@ class ProfileScreen extends Component {
                 <Text>Name: {this.state.info.first_name} {this.state.info.last_name}</Text>
                 <Text>Email address: {this.state.info.email}</Text>
                 
-            
+                <Button
+                    style = {styles.buttonStyle}
+                    title="Edit"
+                    onPress={() => this.props.navigation.navigate("Update Profile")}
+                />
             </View>
                 
             );
@@ -85,5 +89,25 @@ class ProfileScreen extends Component {
         }
     } 
 }
+
+const styles = StyleSheet.create({
+    flexContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'space-around', 
+        alignItems: 'flex-start' 
+    },
+
+    buttonStyle: {
+        width: 50,
+        height: 50,
+        alignItems: 'center'
+        
+    },
+
+    inputStyle: {
+        
+    }
+});
 
 export default ProfileScreen;

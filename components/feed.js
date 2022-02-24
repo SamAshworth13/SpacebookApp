@@ -85,6 +85,7 @@ class FeedScreen extends Component {
                         <View>
                             <Text>{item.author.first_name} {item.author.last_name}:</Text>
                             <Text>{item.text}</Text>
+                            <Text>Likes: {item.numLikes}</Text>
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}

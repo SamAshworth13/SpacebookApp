@@ -6,6 +6,7 @@ import {View} from 'react-native';
 import HomeScreen from './components/home';
 import SignupScreen from './components/signup';
 import LoginScreen from './components/login';
+import EditProfileScreen from './components/editProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ class App extends Component {
             <Stack.Screen name="Home" component={HomeScreen} options={{
             headerShown: false}} />
             <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Update Profile" component={EditProfileScreen} />
             
           </Stack.Navigator>
         </NavigationContainer>
