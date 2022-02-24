@@ -39,29 +39,11 @@ class FeedScreen extends Component {
             this.getFeed();
         });  
     }
-    
-    logout = () => {
-        fetch('http://localhost:3333/api/1.0.0/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Authorization': this.state.login_info.token
-            }
-            
-        })
-        .then((json) => {
-            console.log(json);
-            this.props.navigation.navigate("Login");
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    }
 
     
 
     getFeed = () => {
-        console.log("getting feed...");
+        console.log("Getting feed...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post', {
             method: 'GET',
             headers: {

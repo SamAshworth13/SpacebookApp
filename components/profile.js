@@ -13,12 +13,76 @@ const getData = async (done) => {
 }
 
 class ProfileScreen extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            login_info: {},
+            isLoading: true,
+            info: {}
+        }
+    }
+
+    componentDidMount(){
+        getData((data) => {
+            this.setState({
+                login_info: data,
+                isLoading: false,
+                info: {}
+            });
+
+            this.getProfile();
+        });  
+    }
+
+    getProfile = () => {
+        console.log("Getting profile...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+                info: responseJson
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
+
+
     render(){
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Profile</Text>
+        if(this.state.isLoading){
+            return (
+                <View><Text>Loading...</Text></View>
+            )
+        }
+        else{
+
+            console.log("here", this.state);
+            return (
+            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                
+            
+                
+                <Text>Name: {this.state.info.first_name} {this.state.info.last_name}</Text>
+                <Text>Email address: {this.state.info.email}</Text>
+                
+            
             </View>
-        );
+                
+            );
+
+            
+
+        }
     } 
 }
 
