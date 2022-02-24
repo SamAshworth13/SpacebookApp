@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
+import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 
 const getData = async (done) => {
     try {
@@ -15,70 +13,56 @@ const getData = async (done) => {
 }
 
 
-class FeedScreen extends Component {
+
+class EditProfileScreen extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             login_info: {},
             isLoading: true,
-            feed: {}
+            post_text: ''
         }
     }
-
-    
 
     componentDidMount(){
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false,
-                feed: {}
+                isLoading: false
             });
 
-            this.getFeed();
         });  
     }
 
-    refresh = this.props.navigation.addListener('focus', () => {
-        getData((data) => {
-            this.setState({
-                login_info: data,
-                isLoading: false,
-                info: {}
-            });
 
-            this.getFeed();
-        });  
-    });
-    
-
-    getFeed = () => {
-        console.log("Getting feed...");
+      newPost = () => {
+        console.log("Creating post...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Authorization': this.state.login_info.token
-            }
+            },
+            body: JSON.stringify({
+                text: this.state.post_text
+              })
         })
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
                 isLoading: false,
-                feed: responseJson
+                info: responseJson
             })
+            this.props.navigation.navigate("Home");
         })
         .catch((error) => {
             console.log(error);
         });
       }
-    
 
     render(){
-
-
         if(this.state.isLoading){
             return (
                 <View><Text>Loading...</Text></View>
@@ -88,27 +72,24 @@ class FeedScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                 
-                <FlatList
-                    data={this.state.feed}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.author.first_name} {item.author.last_name}:</Text>
-                            <Text>{item.text}</Text>
-                            <Text>Likes: {item.numLikes}</Text>
-                        </View>
-                    )}
-                    keyExtractor={(item,index) => item.post_id}
+            
+                
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = 'Enter post here...'
+                onChangeText={(post_text) => this.setState({post_text})}
+                value= {this.state.post_text}
                 />
 
+
                 <Button
-                    style = {styles.buttonStyle}
-                    title="Add post to my wall"
-                    onPress={() => this.props.navigation.navigate("New Post")}
+                style = {styles.buttonStyle}
+                title="Create Post"
+                onPress={() => this.newPost()}
                 />
             </View>
-                
             );
 
             
@@ -119,7 +100,7 @@ class FeedScreen extends Component {
 
 const styles = StyleSheet.create({
     flexContainer: {
-        flex: 9,
+        flex: 1,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
         alignItems: 'flex-start' 
@@ -132,12 +113,9 @@ const styles = StyleSheet.create({
         
     },
 
-    headerStyle: {
-        flex: 1,
-        flexDirection: 'column', 
-        justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
+    inputStyle: {
+        
     }
 });
 
-export default FeedScreen;
+export default EditProfileScreen;

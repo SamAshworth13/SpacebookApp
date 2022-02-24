@@ -12,6 +12,8 @@ const getData = async (done) => {
     }
 }
 
+
+
 class EditProfileScreen extends Component {
     constructor(props){
         super(props);
@@ -112,7 +114,6 @@ class EditProfileScreen extends Component {
                 style = {styles.inputStyle}
                 placeholder = {this.state.info.first_name}
                 onChangeText={(first_name) => this.setState({first_name})}
-                //value={this.state.first_name}
                 defaultValue = {this.state.info.first_name}
                 />
 
@@ -120,7 +121,6 @@ class EditProfileScreen extends Component {
                 style = {styles.inputStyle}
                 placeholder = {this.state.info.last_name}
                 onChangeText={(last_name) => this.setState({last_name})}
-                //value={this.state.last_name}
                 defaultValue = {this.state.info.last_name}
                 />
 
@@ -128,7 +128,6 @@ class EditProfileScreen extends Component {
                 style = {styles.inputStyle}
                 placeholder = {this.state.info.email}
                 onChangeText={(email) => this.setState({email})}
-                //value={this.state.email}
                 defaultValue = {this.state.info.email}
                 />
                     
@@ -136,14 +135,17 @@ class EditProfileScreen extends Component {
                 style = {styles.inputStyle}
                 placeholder = "Enter new password"
                 onChangeText={(password) => this.setState({password})}
-                //value={this.state.password}
                 secureTextEntry={true}
                 />
 
                 <Button
                 style = {styles.buttonStyle}
                 title="Update"
-                onPress={() => this.update()}
+                onPress={() => {
+                    this.update()
+                    this.props.navigation.navigate("Home")
+                }
+                }
                 />
             </View>
             );
