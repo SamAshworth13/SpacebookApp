@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const getData = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@spacebook_details')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
 
 class ProfileScreen extends Component {
     render(){

@@ -84,7 +84,7 @@ class HomeScreen extends Component {
                     onPress={() => this.logout()}
                     />
                     
-                    <Tab.Navigator
+                    <Tab.Navigator style={{ justifyContent: 'center'}}
                         screenOptions={({ route }) => ({
                             tabBarIcon: ({ focused, color, size }) => {
                                 let iconName;

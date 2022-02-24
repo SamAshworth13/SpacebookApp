@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -21,7 +21,8 @@ class FeedScreen extends Component {
 
         this.state = {
             login_info: {},
-            isLoading: true
+            isLoading: true,
+            feed: {}
         }
     }
 
@@ -31,8 +32,11 @@ class FeedScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false
+                isLoading: false,
+                feed: {}
             });
+
+            this.getFeed();
         });  
     }
     
@@ -53,6 +57,30 @@ class FeedScreen extends Component {
             console.error(error);
         });
     }
+
+    
+
+    getFeed = () => {
+        console.log("getting feed...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+                feed: responseJson
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
     
 
     render(){
@@ -66,12 +94,19 @@ class FeedScreen extends Component {
         else{
 
             console.log("here", this.state);
-
-            
-
             return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Feed</Text>
+                
+                <FlatList
+                    data={this.state.feed}
+                    renderItem={({item}) => (
+                        <View>
+                            <Text>{item.author.first_name} {item.author.last_name}:</Text>
+                            <Text>{item.text}</Text>
+                        </View>
+                    )}
+                    keyExtractor={(item,index) => item.post_id}
+                />
             </View>
                 
             );
