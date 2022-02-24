@@ -40,6 +40,17 @@ class FeedScreen extends Component {
         });  
     }
 
+    refresh = this.props.navigation.addListener('focus', () => {
+        getData((data) => {
+            this.setState({
+                login_info: data,
+                isLoading: false,
+                info: {}
+            });
+
+            this.getProfile();
+        });  
+    });
     
 
     getFeed = () => {

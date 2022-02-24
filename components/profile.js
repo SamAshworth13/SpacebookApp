@@ -12,6 +12,8 @@ const getData = async (done) => {
     }
 }
 
+
+
 class ProfileScreen extends Component {
     constructor(props){
         super(props);
@@ -22,6 +24,8 @@ class ProfileScreen extends Component {
             info: {}
         }
     }
+
+    
 
     componentDidMount(){
         getData((data) => {
@@ -34,6 +38,18 @@ class ProfileScreen extends Component {
             this.getProfile();
         });  
     }
+
+    refresh = this.props.navigation.addListener('focus', () => {
+        getData((data) => {
+            this.setState({
+                login_info: data,
+                isLoading: false,
+                info: {}
+            });
+
+            this.getProfile();
+        });  
+    });
 
     getProfile = () => {
         console.log("Getting profile...");
