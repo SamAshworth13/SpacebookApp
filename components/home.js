@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import FeedScreen from './feed';
 import ProfileScreen from './profile';
+import FriendsScreen from './friends';
 import RequestsScreen from './requests';
 import SearchScreen from './search';
 
@@ -97,6 +98,10 @@ class HomeScreen extends Component {
                                     iconName = focused
                                     ? 'person'
                                     : 'person-outline';
+                                } else if (route.name === 'Friends') {
+                                    iconName = focused
+                                    ? 'people'
+                                    : 'people-outline';
                                 } else if (route.name === 'Requests') {
                                     iconName = focused 
                                     ? 'person-add' 
@@ -116,6 +121,7 @@ class HomeScreen extends Component {
                     >
                             <Tab.Screen name="Feed" component={FeedScreen} />
                             <Tab.Screen name="Profile" component={ProfileScreen} />
+                            <Tab.Screen name="Friends" component={FriendsScreen} />
                             <Tab.Screen name="Requests" component={RequestsScreen} />
                             <Tab.Screen name="Search" component={SearchScreen} />
                     </Tab.Navigator>
