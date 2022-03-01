@@ -22,7 +22,7 @@ class SearchScreen extends Component {
             login_info: {},
             isLoading: true,
             search_text: '',
-            results: {},
+            results: [],
             other_user_id: {}
         }
     }
@@ -109,7 +109,7 @@ class SearchScreen extends Component {
                 />
 
                 <FlatList
-                    data={this.state.results}
+                    data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
                     renderItem={({item}) => (
                         <View>
                             <Text>{item.user_givenname} {item.user_familyname}</Text>

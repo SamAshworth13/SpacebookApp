@@ -45,7 +45,7 @@ class FeedScreen extends Component {
             this.setState({
                 login_info: data,
                 isLoading: false,
-                info: {}
+                feed: {}
             });
 
             this.getFeed();
