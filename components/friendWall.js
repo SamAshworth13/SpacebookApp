@@ -14,15 +14,26 @@ const getData = async (done) => {
     }
 }
 
+const getOtherUser = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@other_user_id')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
 
-class FeedScreen extends Component {
+
+class FriendWallScreen extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             login_info: {},
             isLoading: true,
-            feed: {}
+            feed: {},
+            other_user_id: {}
         }
     }
 
@@ -36,7 +47,15 @@ class FeedScreen extends Component {
                 feed: {}
             });
 
-            this.getFeed();
+            getOtherUser((id) => {
+                this.setState({
+                    other_user_id: id
+                })
+
+                this.getFeed();
+            })
+
+            
         });  
     }
 
@@ -48,14 +67,22 @@ class FeedScreen extends Component {
                 feed: {}
             });
 
-            this.getFeed();
+            getOtherUser((id) => {
+                this.setState({
+                    other_user_id: id
+                })
+
+                this.getFeed();
+            })
+
+            
         });  
     });
     
 
     getFeed = () => {
-        console.log("Getting feed...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post', {
+        console.log("Getting wall...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,27 +95,6 @@ class FeedScreen extends Component {
             this.setState({
                 isLoading: false,
                 feed: responseJson
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-      }
-
-      addLike = (author_id, post_id) => {
-        console.log("Adding Like...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + author_id + '/post/' + post_id + '/like', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Authorization': this.state.login_info.token
-            }
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson);
-            this.setState({
-                isLoading: false,
             })
         })
         .catch((error) => {
@@ -118,12 +124,6 @@ class FeedScreen extends Component {
                             <Text>{item.author.first_name} {item.author.last_name}:</Text>
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
-
-                            <Button
-                            style = {styles.buttonStyle}
-                            title="Like"
-                            onPress={() => this.addLike(this.state.login_info.id, item.post_id)}
-                            />
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}
@@ -131,8 +131,8 @@ class FeedScreen extends Component {
 
                 <Button
                     style = {styles.buttonStyle}
-                    title="Add post to my wall"
-                    onPress={() => this.props.navigation.navigate("New Post")}
+                    title="Add post to this wall"
+                    onPress={() => this.props.navigation.navigate("Friend Post")}
                 />
             </View>
                 
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default FeedScreen;
+export default FriendWallScreen;

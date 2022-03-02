@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const storeData = async (login, id) => {
+    try {
+      const jsonLogin = JSON.stringify(login)
+      const jsonID = JSON.stringify(id)
+      await AsyncStorage.setItem('@spacebook_details', jsonLogin)
+      await AsyncStorage.setItem('@other_user_id', jsonID)
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
 const getData = async (done) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@spacebook_details')
@@ -58,6 +69,11 @@ class FriendsScreen extends Component {
         });
       }
 
+      viewProfile = () => {
+        storeData(this.state.login_info, this.state.other_user_id);
+        this.props.navigation.navigate("Friend's Wall");
+      }
+
     render(){
         if(this.state.isLoading){
             return (
@@ -96,7 +112,7 @@ class FriendsScreen extends Component {
                                 title="View Profile"
                                 onPress={() => {
                                     this.setState({other_user_id: item.user_id}, () => {
-                                        
+                                        this.viewProfile()
                                     });
                                 }
                                 }

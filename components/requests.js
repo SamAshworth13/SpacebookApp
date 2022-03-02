@@ -137,6 +137,7 @@ class RequestsScreen extends Component {
                                 onPress={() => {
                                     this.setState({other_user_id: item.user_id}, () => {
                                         this.acceptRequest()
+                                        this.getRequests()
                                     });
                                 }
                                 }
@@ -148,6 +149,7 @@ class RequestsScreen extends Component {
                                 onPress={() => {
                                     this.setState({other_user_id: item.user_id}, () => {
                                         this.deleteRequest()
+                                        this.getRequests()
                                     });
                                 }
                                 }

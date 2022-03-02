@@ -12,16 +12,26 @@ const getData = async (done) => {
     }
 }
 
+const getOtherUser = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@other_user_id')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
 
 
-class AddPostScreen extends Component {
+class FriendPostScreen extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             login_info: {},
             isLoading: true,
-            post_text: ''
+            post_text: '',
+            other_user_id: {}
         }
     }
 
@@ -29,16 +39,24 @@ class AddPostScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false
+                isLoading: false,
+                post_text: ''
             });
 
-        });  
+            getOtherUser((id) => {
+                this.setState({
+                    other_user_id: id
+                })
+            })
+
+            
+        });   
     }
 
 
       newPost = () => {
         console.log("Creating post...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post', {
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +73,7 @@ class AddPostScreen extends Component {
                 isLoading: false,
                 info: responseJson
             })
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Friend's Wall");
         })
         .catch((error) => {
             console.log(error);
@@ -118,4 +136,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddPostScreen;
+export default FriendPostScreen;

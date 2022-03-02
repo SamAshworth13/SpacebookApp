@@ -69,6 +69,26 @@ class EditProfileScreen extends Component {
       }
 
       update = () => {
+
+        let to_send = {};
+
+        if (this.state.info.first_name != this.state.first_name){
+            to_send['first_name'] = this.state.first_name;
+        }
+
+        if (this.state.info.last_name != this.state.last_name){
+            to_send['last_name'] = this.state.last_name;
+        }
+
+        if (this.state.info.email != this.state.email){
+            to_send['email'] = this.state.email;
+        }
+
+        if (this.state.info.password != this.state.password){
+            to_send['password'] = this.state.password;
+        }
+        console.log(JSON.stringify(to_send));
+
         console.log("Updating profile...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id, {
             method: 'PATCH',
@@ -76,12 +96,7 @@ class EditProfileScreen extends Component {
                 'Content-Type': 'application/json',
                 'X-Authorization': this.state.login_info.token
             },
-            body: JSON.stringify({
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                email: this.state.email,
-                password: this.state.password
-              })
+            body: JSON.stringify(to_send)
         })
         .then((response) => response.json())
         .then((responseJson) => {
