@@ -136,6 +136,17 @@ class FeedScreen extends Component {
 
                             {item.author.user_id == this.state.login_info.id ? <Button
                             style = {styles.buttonStyle}
+                            title="Edit"
+                            onPress={() => {
+                                this.setState({to_be_edited: item}, () => {
+                                    this.editPost()
+                                })
+                                
+                            }}
+                            /> : null}
+
+                            {item.author.user_id == this.state.login_info.id ? <Button
+                            style = {styles.buttonStyle}
                             title="Delete"
                             onPress={() => {
                                 this.deletePost(item.post_id)
@@ -146,16 +157,6 @@ class FeedScreen extends Component {
                             }
                             /> : null}
 
-                            {item.author.user_id == this.state.login_info.id ? <Button
-                            style = {styles.buttonStyle}
-                            title="Edit"
-                            onPress={() => {
-                                this.setState({to_be_edited: item}, () => {
-                                    this.editPost()
-                                })
-                                
-                            }}
-                            /> : null}
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}
