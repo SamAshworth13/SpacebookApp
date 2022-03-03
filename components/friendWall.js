@@ -167,29 +167,30 @@ class FriendWallScreen extends Component {
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
 
-                            <Button
+                            {item.author.user_id != this.state.login_info.id ? <Button 
+                            
                             style = {styles.buttonStyle}
                             title="Like"
                             onPress={() => {
                                 this.addLike(item.post_id)
-                                this.setState({feed: {}}, () => {
+                                this.setState({isLoading: true}, () => {
                                     this.getFeed()
                                 })
                                 }
                             }
-                            />
+                            /> : null}
 
-                            <Button
+                            {item.author.user_id != this.state.login_info.id ? <Button
                             style = {styles.buttonStyle}
                             title="Unlike"
                             onPress={() => {
                                 this.removeLike(item.post_id)
-                                this.setState({feed: {}}, () => {
+                                this.setState({isLoading: true}, () => {
                                     this.getFeed()
                                 })
                                 }
                             }
-                            />
+                            /> : null}
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}

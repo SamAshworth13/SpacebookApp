@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+const storeData = async (login, post) => {
+    try {
+      const jsonLogin = JSON.stringify(login)
+      const jsonPost = JSON.stringify(post)
+      await AsyncStorage.setItem('@spacebook_details', jsonLogin)
+      await AsyncStorage.setItem('@post', jsonPost)
+    } catch (e) {
+        console.error(e);
+    }
+  }
 
 const getData = async (done) => {
     try {
@@ -22,6 +31,7 @@ class FeedScreen extends Component {
         this.state = {
             login_info: {},
             isLoading: true,
+            to_be_edited: {},
             feed: {}
         }
     }
@@ -74,8 +84,33 @@ class FeedScreen extends Component {
             console.log(error);
         });
       }
+      
 
-    
+      deletePost = (post_id) => {
+        console.log("Deleting post...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post/' + post_id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    editPost = () => {
+        storeData(this.state.login_info, this.state.to_be_edited);
+        this.props.navigation.navigate("Edit Post");
+      }
 
     render(){
 
@@ -98,6 +133,29 @@ class FeedScreen extends Component {
                             <Text>{item.author.first_name} {item.author.last_name}:</Text>
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
+
+                            {item.author.user_id == this.state.login_info.id ? <Button
+                            style = {styles.buttonStyle}
+                            title="Delete"
+                            onPress={() => {
+                                this.deletePost(item.post_id)
+                                this.setState({feed: {}}, () => {
+                                    this.getFeed()
+                                })
+                                }
+                            }
+                            /> : null}
+
+                            {item.author.user_id == this.state.login_info.id ? <Button
+                            style = {styles.buttonStyle}
+                            title="Edit"
+                            onPress={() => {
+                                this.setState({to_be_edited: item}, () => {
+                                    this.editPost()
+                                })
+                                
+                            }}
+                            /> : null}
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}

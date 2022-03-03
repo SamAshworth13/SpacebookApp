@@ -10,6 +10,7 @@ import EditProfileScreen from './components/editProfile';
 import AddPostScreen from './components/addPost';
 import FriendWallScreen from './components/friendWall';
 import FriendPostScreen from './components/addFriendPost';
+import EditPostScreen from './components/editPost';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ class App extends Component {
             <Stack.Screen name="New Post" component={AddPostScreen} />
             <Stack.Screen name="Friend's Wall" component={FriendWallScreen} />
             <Stack.Screen name="Friend Post" component={FriendPostScreen} title="New Post"/>
+            <Stack.Screen name="Edit Post" component={EditPostScreen} />
           </Stack.Navigator>
         </NavigationContainer>
     );
