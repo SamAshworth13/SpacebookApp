@@ -101,6 +101,48 @@ class FriendWallScreen extends Component {
             console.log(error);
         });
       }
+
+      addLike = (post_id) => {
+        console.log("Adding Like...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
+
+      removeLike = (post_id) => {
+        console.log("Adding Like...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
     
 
     render(){
@@ -124,6 +166,30 @@ class FriendWallScreen extends Component {
                             <Text>{item.author.first_name} {item.author.last_name}:</Text>
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
+
+                            <Button
+                            style = {styles.buttonStyle}
+                            title="Like"
+                            onPress={() => {
+                                this.addLike(item.post_id)
+                                this.setState({feed: {}}, () => {
+                                    this.getFeed()
+                                })
+                                }
+                            }
+                            />
+
+                            <Button
+                            style = {styles.buttonStyle}
+                            title="Unlike"
+                            onPress={() => {
+                                this.removeLike(item.post_id)
+                                this.setState({feed: {}}, () => {
+                                    this.getFeed()
+                                })
+                                }
+                            }
+                            />
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}

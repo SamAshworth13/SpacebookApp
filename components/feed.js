@@ -75,26 +75,6 @@ class FeedScreen extends Component {
         });
       }
 
-      addLike = (author_id, post_id) => {
-        console.log("Adding Like...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + author_id + '/post/' + post_id + '/like', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Authorization': this.state.login_info.token
-            }
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson);
-            this.setState({
-                isLoading: false,
-            })
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-      }
     
 
     render(){
@@ -118,12 +98,6 @@ class FeedScreen extends Component {
                             <Text>{item.author.first_name} {item.author.last_name}:</Text>
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
-
-                            <Button
-                            style = {styles.buttonStyle}
-                            title="Like"
-                            onPress={() => this.addLike(this.state.login_info.id, item.post_id)}
-                            />
                         </View>
                     )}
                     keyExtractor={(item,index) => item.post_id}
