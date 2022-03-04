@@ -127,12 +127,6 @@ class ProfileScreen extends Component {
 
                 <Button
                     style = {styles.buttonStyle}
-                    title="Upload Profile Picture"
-                    //onPress={() => this.props.navigation.navigate("Update Profile")}
-                />
-
-                <Button
-                    style = {styles.buttonStyle}
                     title="Take New Profile Picture"
                     onPress={() => this.props.navigation.navigate("Take Photo")}
                 />
