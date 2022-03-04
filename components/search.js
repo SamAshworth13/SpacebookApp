@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const storeData = async (login, id) => {
+    try {
+      const jsonLogin = JSON.stringify(login)
+      const jsonID = JSON.stringify(id)
+      await AsyncStorage.setItem('@spacebook_details', jsonLogin)
+      await AsyncStorage.setItem('@other_user_id', jsonID)
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
 const getData = async (done) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@spacebook_details')
@@ -81,6 +92,11 @@ class SearchScreen extends Component {
         });
       }
 
+      viewProfile = () => {
+        storeData(this.state.login_info, this.state.other_user_id);
+        this.props.navigation.navigate("User's Profile");
+      }
+
     render(){
         if(this.state.isLoading){
             return (
@@ -91,8 +107,8 @@ class SearchScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <View>
             
                 
                 <TextInput 
@@ -116,6 +132,17 @@ class SearchScreen extends Component {
 
                             <Button
                                 style = {styles.buttonStyle}
+                                title="View Profile"
+                                onPress={() => {
+                                    this.setState({other_user_id: item.user_id}, () => {
+                                        this.viewProfile()
+                                    });
+                                }
+                                }
+                            />
+
+                            <Button
+                                style = {styles.buttonStyle}
                                 title="Add Friend"
                                 onPress={() => {
                                     this.setState({other_user_id: item.user_id}, () => {
@@ -129,7 +156,8 @@ class SearchScreen extends Component {
                     )}
                     keyExtractor={(item,index) => item.user_id}
                 />
-            </View>
+                </View>
+            </ScrollView>
             );
 
             
@@ -155,7 +183,14 @@ const styles = StyleSheet.create({
 
     inputStyle: {
         
-    }
+    },
+
+    scrollView: {
+        height: '100%',
+        width: '100%',
+        margin: 20,
+        alignSelf: 'center',
+      },
 });
 
 export default SearchScreen;

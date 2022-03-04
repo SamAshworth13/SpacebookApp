@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
+import { Text, Image, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storeData = async (login, post) => {

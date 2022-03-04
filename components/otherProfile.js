@@ -12,6 +12,16 @@ const getData = async (done) => {
     }
 }
 
+const getOtherUser = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@other_user_id')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
 
 
 class ProfileScreen extends Component {
@@ -31,12 +41,21 @@ class ProfileScreen extends Component {
             this.setState({
                 login_info: data,
                 isLoading: false,
-                info: {}
+                feed: {}
             });
 
-            this.getProfile();
-            this.getProfilePic();
-        });  
+            getOtherUser((id) => {
+                this.setState({
+                    other_user_id: id
+                })
+
+                this.getProfile();
+                this.getProfilePic();
+            })
+
+            
+            
+        }); 
     }
 
     refresh = this.props.navigation.addListener('focus', () => {
@@ -44,16 +63,24 @@ class ProfileScreen extends Component {
             this.setState({
                 login_info: data,
                 isLoading: false,
-                info: {}
+                feed: {}
             });
 
-            this.getProfile();
-            this.getProfilePic();
+            getOtherUser((id) => {
+                this.setState({
+                    other_user_id: id
+                })
+
+                this.getProfile();
+                this.getProfilePic();
+            })
+            
+            
         });  
     });
 
     getProfilePic = () => {
-        fetch('http://localhost:3333/api/1.0.0/user/'+ this.state.login_info.id +'/photo', {
+        fetch('http://localhost:3333/api/1.0.0/user/'+ this.state.other_user_id +'/photo', {
           method: 'GET',
           headers: {
             'X-Authorization': this.state.login_info.token
@@ -76,7 +103,7 @@ class ProfileScreen extends Component {
 
     getProfile = () => {
         console.log("Getting profile...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id, {
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,23 +146,6 @@ class ProfileScreen extends Component {
                 <Text>Name: {this.state.info.first_name} {this.state.info.last_name}</Text>
                 <Text>Email address: {this.state.info.email}</Text>
                 
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Edit Profile"
-                    onPress={() => this.props.navigation.navigate("Update Profile")}
-                />
-
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Upload Profile Picture"
-                    //onPress={() => this.props.navigation.navigate("Update Profile")}
-                />
-
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Take New Profile Picture"
-                    onPress={() => this.props.navigation.navigate("Take Photo")}
-                />
             </View>
                 
             );

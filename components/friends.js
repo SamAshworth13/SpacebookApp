@@ -32,7 +32,8 @@ class FriendsScreen extends Component {
             isLoading: true,
             search_text: '',
             results: [],
-            other_user_id: {}
+            other_user_id: {},
+            profile: {}
         }
     }
 
@@ -43,9 +44,42 @@ class FriendsScreen extends Component {
                 isLoading: false
             });
             this.search();
+            this.getProfile();
         });  
     }
+
+    refresh = this.props.navigation.addListener('focus', () => {
+        getData((data) => {
+            this.setState({
+                login_info: data,
+                isLoading: false
+            });
+            this.search();
+            this.getProfile();
+        });   
+    });
     
+    getProfile = () => {
+        console.log("Getting profile...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+                profile: responseJson
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
 
       search = () => {
         console.log("Searching...");
@@ -69,9 +103,14 @@ class FriendsScreen extends Component {
         });
       }
 
-      viewProfile = () => {
+      viewWall = () => {
         storeData(this.state.login_info, this.state.other_user_id);
         this.props.navigation.navigate("Friend's Wall");
+      }
+
+      viewProfile = () => {
+        storeData(this.state.login_info, this.state.other_user_id);
+        this.props.navigation.navigate("User's Profile");
       }
 
     render(){
@@ -86,7 +125,7 @@ class FriendsScreen extends Component {
             return (
             <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                 
-            
+                <Text>{this.state.profile.friend_count} Friends</Text>
                 
                 <TextInput 
                 style = {styles.inputStyle}
@@ -113,6 +152,17 @@ class FriendsScreen extends Component {
                                 onPress={() => {
                                     this.setState({other_user_id: item.user_id}, () => {
                                         this.viewProfile()
+                                    });
+                                }
+                                }
+                            />
+
+                            <Button
+                                style = {styles.buttonStyle}
+                                title="View Wall"
+                                onPress={() => {
+                                    this.setState({other_user_id: item.user_id}, () => {
+                                        this.viewWall()
                                     });
                                 }
                                 }
