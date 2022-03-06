@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
+import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const storeData = async (login, user_id, post_id) => {
-    try {
-      const jsonLogin = JSON.stringify(login)
-      const jsonUser = JSON.stringify(user_id)
-      const jsonPostID = JSON.stringify(post_id)
-      await AsyncStorage.setItem('@spacebook_details', jsonLogin)
-      await AsyncStorage.setItem('@other_user_id', jsonUser)
-      await AsyncStorage.setItem('@post_id', jsonPostID)
-    } catch (e) {
-        console.error(e);
-    }
-  }
 
 const getData = async (done) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@spacebook_details')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+const getPostID = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@post_id')
         const data = JSON.parse(jsonValue);
         return done(data);
     } catch(e) {
@@ -35,37 +32,43 @@ const getOtherUser = async (done) => {
     }
 }
 
-
-class FriendWallScreen extends Component {
+class ViewFriendPostScreen extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             login_info: {},
             isLoading: true,
-            feed: {},
-            other_user_id: {},
-            cur_post: {}
+            post: {},
+            new_text: "",
+            post_id: {},
+            other_user_id: {}
         }
     }
-
-    
 
     componentDidMount(){
         getData((data) => {
             this.setState({
                 login_info: data,
                 isLoading: true,
-                feed: {},
-                cur_post: {}
+                post: {},
+                new_text: "",
+                post_id: {},
+                other_user_id: {}
             });
 
-            getOtherUser((id) => {
+            getPostID((id) => {
                 this.setState({
-                    other_user_id: id
+                    post_id: id
                 })
 
-                this.getFeed();
+                getOtherUser((user_id) => {
+                    this.setState({
+                        other_user_id: user_id
+                    })
+
+                    this.getPost();
+                })
             })
 
             
@@ -77,25 +80,33 @@ class FriendWallScreen extends Component {
             this.setState({
                 login_info: data,
                 isLoading: true,
-                feed: {}
+                post: {},
+                new_text: "",
+                post_id: {},
+                other_user_id: {}
             });
 
-            getOtherUser((id) => {
+            getPostID((id) => {
                 this.setState({
-                    other_user_id: id
+                    post_id: id
                 })
 
-                this.getFeed();
+                getOtherUser((user_id) => {
+                    this.setState({
+                        other_user_id: user_id
+                    })
+
+                    this.getPost();
+                })
             })
 
             
         });  
     });
-    
 
-    getFeed = () => {
-        console.log("Getting wall...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post', {
+    getPost = () => {
+        console.log("Getting post...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + this.state.post_id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +118,7 @@ class FriendWallScreen extends Component {
             console.log(responseJson);
             this.setState({
                 isLoading: false,
-                feed: responseJson
+                post: responseJson
             })
         })
         .catch((error) => {
@@ -115,9 +126,9 @@ class FriendWallScreen extends Component {
         });
       }
 
-      addLike = (post_id) => {
+      addLike = () => {
         console.log("Adding Like...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + this.state.post_id + '/like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +136,7 @@ class FriendWallScreen extends Component {
             }
         })
         .then((response) => response.json())
-        .then(this.getFeed())
+        .then(this.getPost())
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
@@ -137,9 +148,9 @@ class FriendWallScreen extends Component {
         });
       }
 
-      removeLike = (post_id) => {
+      removeLike = () => {
         console.log("Removing Like...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + this.state.post_id + '/like', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -147,7 +158,7 @@ class FriendWallScreen extends Component {
             }
         })
         .then((response) => response.json())
-        .then(this.getFeed())
+        .then(this.getPost())
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
@@ -159,15 +170,8 @@ class FriendWallScreen extends Component {
         });
       }
 
-      viewPost = () => {
-        storeData(this.state.login_info, this.state.other_user_id, this.state.cur_post.post_id);
-        this.props.navigation.navigate("View Friend Post");
-    }
-    
 
     render(){
-
-
         if(this.state.isLoading){
             return (
                 <View><Text>Loading...</Text></View>
@@ -177,63 +181,39 @@ class FriendWallScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                 
-                <FlatList
-                    data={this.state.feed}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.author.first_name} {item.author.last_name}:</Text>
-                            <Text>{item.text}</Text>
-                            <Text>Likes: {item.numLikes}</Text>
+            
+                <Text>{this.state.post.author.first_name} {this.state.post.author.last_name}</Text>
+                <Text>{this.state.post.text}</Text>
+                <Text>Likes: {this.state.post.numLikes}</Text>
 
-                            <Button
-                            style = {styles.buttonStyle}
-                            title="View"
-                            onPress={() => {
-                                this.setState({cur_post: item}, () => {
-                                    this.viewPost()
-                                })
-                                
-                            }}
-                            />
-
-                            {item.author.user_id != this.state.login_info.id ? <Button 
+                {this.state.post.author.user_id != this.state.login_info.id ? <Button 
                             
                             style = {styles.buttonStyle}
                             title="Like"
                             onPress={() => {
-                                this.addLike(item.post_id)
+                                this.addLike()
                                 this.setState({isLoading: true}, () => {
-                                    this.getFeed()
+                                    this.getPost()
                                 })
                                 }
                             }
                             /> : null}
 
-                            {item.author.user_id != this.state.login_info.id ? <Button
+                            {this.state.post.author.user_id != this.state.login_info.id ? <Button
                             style = {styles.buttonStyle}
                             title="Unlike"
                             onPress={() => {
-                                this.removeLike(item.post_id)
+                                this.removeLike()
                                 this.setState({isLoading: true}, () => {
-                                    this.getFeed()
+                                    this.getPost()
                                 })
                                 }
                             }
                             /> : null}
-                        </View>
-                    )}
-                    keyExtractor={(item,index) => item.post_id}
-                />
 
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Add post to this wall"
-                    onPress={() => this.props.navigation.navigate("Friend Post")}
-                />
             </View>
-                
             );
 
             
@@ -244,7 +224,7 @@ class FriendWallScreen extends Component {
 
 const styles = StyleSheet.create({
     flexContainer: {
-        flex: 9,
+        flex: 1,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
         alignItems: 'flex-start' 
@@ -257,12 +237,9 @@ const styles = StyleSheet.create({
         
     },
 
-    headerStyle: {
-        flex: 1,
-        flexDirection: 'column', 
-        justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
+    inputStyle: {
+        
     }
 });
 
-export default FriendWallScreen;
+export default ViewFriendPostScreen;
