@@ -132,54 +132,55 @@ class FeedScreen extends Component {
             console.log("here", this.state);
             return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                
-                <FlatList
-                    data={this.state.feed}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.author.first_name} {item.author.last_name}:</Text>
-                            <Text>{item.text}</Text>
-                            <Text>Likes: {item.numLikes}</Text>
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <FlatList
+                        data={this.state.feed}
+                        renderItem={({item}) => (
+                            <View>
+                                <Text>{item.author.first_name} {item.author.last_name}:</Text>
+                                <Text>{item.text}</Text>
+                                <Text>Likes: {item.numLikes}</Text>
 
-                            <Button
-                            style = {styles.buttonStyle}
-                            title="View"
-                            onPress={() => {
-                                this.setState({to_be_edited: item}, () => {
-                                    this.viewPost()
-                                })
-                                
-                            }}
-                            />
+                                <Button
+                                style = {styles.buttonStyle}
+                                title="View"
+                                onPress={() => {
+                                    this.setState({to_be_edited: item}, () => {
+                                        this.viewPost()
+                                    })
+                                    
+                                }}
+                                />
 
-                            {item.author.user_id == this.state.login_info.id ? <Button
-                            style = {styles.buttonStyle}
-                            title="Edit"
-                            onPress={() => {
-                                this.setState({to_be_edited: item}, () => {
-                                    this.editPost()
-                                })
-                                
-                            }}
-                            /> : null}
+                                {item.author.user_id == this.state.login_info.id ? <Button
+                                style = {styles.buttonStyle}
+                                title="Edit"
+                                onPress={() => {
+                                    this.setState({to_be_edited: item}, () => {
+                                        this.editPost()
+                                    })
+                                    
+                                }}
+                                /> : null}
 
-                            {item.author.user_id == this.state.login_info.id ? <Button
-                            style = {styles.buttonStyle}
-                            title="Delete"
-                            onPress={() => {
-                                this.deletePost(item.post_id)
-                                this.setState({feed: {}}, () => {
-                                    this.getFeed()
-                                })
+                                {item.author.user_id == this.state.login_info.id ? <Button
+                                style = {styles.buttonStyle}
+                                title="Delete"
+                                onPress={() => {
+                                    this.deletePost(item.post_id)
+                                    this.setState({feed: {}}, () => {
+                                        this.getFeed()
+                                    })
+                                    }
                                 }
-                            }
-                            /> : null}
+                                /> : null}
 
 
-                        </View>
-                    )}
-                    keyExtractor={(item,index) => item.post_id}
-                />
+                            </View>
+                        )}
+                        keyExtractor={(item,index) => item.post_id}
+                    />
+                </ScrollView>
 
                 <Button
                     style = {styles.buttonStyle}
@@ -216,7 +217,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column', 
         justifyContent: 'space-around', 
         alignItems: 'flex-start' 
-    }
+    },
+
+    scrollView: {
+        height: '100%',
+        width: '100%',
+        margin: 20,
+        alignSelf: 'center',
+    },
 });
 
 export default FeedScreen;
