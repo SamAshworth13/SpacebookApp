@@ -43,7 +43,7 @@ class FriendWallScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false,
+                isLoading: true,
                 feed: {}
             });
 
@@ -63,7 +63,7 @@ class FriendWallScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false,
+                isLoading: true,
                 feed: {}
             });
 
@@ -112,6 +112,7 @@ class FriendWallScreen extends Component {
             }
         })
         .then((response) => response.json())
+        .then(this.getFeed())
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
@@ -124,7 +125,7 @@ class FriendWallScreen extends Component {
       }
 
       removeLike = (post_id) => {
-        console.log("Adding Like...");
+        console.log("Removing Like...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
             method: 'DELETE',
             headers: {
@@ -133,6 +134,7 @@ class FriendWallScreen extends Component {
             }
         })
         .then((response) => response.json())
+        .then(this.getFeed())
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({

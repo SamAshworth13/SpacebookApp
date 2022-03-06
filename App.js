@@ -13,6 +13,7 @@ import FriendPostScreen from './components/addFriendPost';
 import EditPostScreen from './components/editPost';
 import CameraScreen from './components/takePhoto';
 import OtherProfileScreen from './components/otherProfile';
+import ViewPostScreen from './components/viewPost';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ class App extends Component {
             <Stack.Screen name="Edit Post" component={EditPostScreen} />
             <Stack.Screen name="Take Photo" component={CameraScreen} />
             <Stack.Screen name="User's Profile" component={OtherProfileScreen} />
+            <Stack.Screen name="Post" component={ViewPostScreen} />
           </Stack.Navigator>
         </NavigationContainer>
     );

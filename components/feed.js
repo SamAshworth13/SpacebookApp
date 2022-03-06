@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Text, Image, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const storeData = async (login, post) => {
+const storeData = async (login, post, post_id) => {
     try {
       const jsonLogin = JSON.stringify(login)
       const jsonPost = JSON.stringify(post)
+      const jsonPostID = JSON.stringify(post_id)
       await AsyncStorage.setItem('@spacebook_details', jsonLogin)
       await AsyncStorage.setItem('@post', jsonPost)
+      await AsyncStorage.setItem('@post_id', jsonPostID)
     } catch (e) {
         console.error(e);
     }
@@ -108,9 +110,14 @@ class FeedScreen extends Component {
     }
 
     editPost = () => {
-        storeData(this.state.login_info, this.state.to_be_edited);
+        storeData(this.state.login_info, this.state.to_be_edited, this.state.to_be_edited.post_id);
         this.props.navigation.navigate("Edit Post");
       }
+
+    viewPost = () => {
+        storeData(this.state.login_info, this.state.to_be_edited, this.state.to_be_edited.post_id);
+        this.props.navigation.navigate("Post");
+    }
 
     render(){
 
@@ -134,6 +141,17 @@ class FeedScreen extends Component {
                             <Text>{item.text}</Text>
                             <Text>Likes: {item.numLikes}</Text>
 
+                            <Button
+                            style = {styles.buttonStyle}
+                            title="View"
+                            onPress={() => {
+                                this.setState({to_be_edited: item}, () => {
+                                    this.viewPost()
+                                })
+                                
+                            }}
+                            />
+
                             {item.author.user_id == this.state.login_info.id ? <Button
                             style = {styles.buttonStyle}
                             title="Edit"
@@ -156,6 +174,7 @@ class FeedScreen extends Component {
                                 }
                             }
                             /> : null}
+
 
                         </View>
                     )}
