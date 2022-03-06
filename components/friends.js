@@ -125,7 +125,7 @@ class FriendsScreen extends Component {
             return (
             <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                 
-                <Text>{this.state.profile.friend_count} Friends</Text>
+                <Text>{this.state.profile.friend_count} Friend(s) (including pending friend requests)</Text>
                 
                 <TextInput 
                 style = {styles.inputStyle}
