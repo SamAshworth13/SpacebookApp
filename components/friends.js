@@ -123,56 +123,60 @@ class FriendsScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                
-                <Text>{this.state.profile.friend_count} Friend(s) (including pending friend requests)</Text>
-                
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = 'Search...'
-                onChangeText={(search_text) => {
-                    this.setState({search_text}, () => {
-                        this.search()
-                      });
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     
-                }
-                }
-                value= {this.state.search_text}
-                />
+                    
+                        <Text>{this.state.profile.friend_count} Friend(s) (including pending friend requests)</Text>
+                        
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = 'Search...'
+                        onChangeText={(search_text) => {
+                            this.setState({search_text}, () => {
+                                this.search()
+                            });
+                            
+                        }
+                        }
+                        value= {this.state.search_text}
+                        />
 
-                <FlatList
-                    data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.user_givenname} {item.user_familyname}</Text>
+                        <FlatList
+                            data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
+                            renderItem={({item}) => (
+                                <View>
+                                    <Text>{item.user_givenname} {item.user_familyname}</Text>
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="View Profile"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.viewProfile()
-                                    });
-                                }
-                                }
-                            />
+                                    <Button
+                                        style = {styles.buttonStyle}
+                                        title="View Profile"
+                                        onPress={() => {
+                                            this.setState({other_user_id: item.user_id}, () => {
+                                                this.viewProfile()
+                                            });
+                                        }
+                                        }
+                                    />
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="View Wall"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.viewWall()
-                                    });
-                                }
-                                }
-                            />
+                                    <Button
+                                        style = {styles.buttonStyle}
+                                        title="View Wall"
+                                        onPress={() => {
+                                            this.setState({other_user_id: item.user_id}, () => {
+                                                this.viewWall()
+                                            });
+                                        }
+                                        }
+                                    />
 
-                        </View>
-                    )}
-                    keyExtractor={(item,index) => item.user_id}
-                />
-            </View>
+                                </View>
+                            )}
+                            keyExtractor={(item,index) => item.user_id}
+                        />
+                    
+                    </View>
+                </ScrollView>
             );
 
             
@@ -198,7 +202,14 @@ const styles = StyleSheet.create({
 
     inputStyle: {
         
-    }
+    },
+
+    scrollView: {
+        height: '100%',
+        width: '100%',
+        margin: 20,
+        alignSelf: 'center',
+    },
 });
 
 export default FriendsScreen;
