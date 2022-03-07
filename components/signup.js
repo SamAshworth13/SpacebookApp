@@ -8,9 +8,18 @@ class SignupScreen extends Component {
           first_name: "",
           last_name: "",
           email: "",
-          password: ""
+          password: "",
+          bad_details: false
         };
       }
+
+      componentDidMount(){
+        this.setState({bad_details: false});
+      }
+    
+      refresh = this.props.navigation.addListener('focus', () => {
+        this.setState({bad_details: false});
+      });
 
 
       signup = () => {
@@ -33,54 +42,98 @@ class SignupScreen extends Component {
         })
         .catch((error) => {
             console.error(error);
+            this.setState({bad_details: true});
         });
     }
 
     render(){
+        if (!this.state.bad_details) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Signup Screen</Text>
 
-        const nav = this.props.navigation
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter first name"
+                onChangeText={(first_name) => this.setState({first_name})}
+                value={this.state.first_name}
+                />
 
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter last name"
+                onChangeText={(last_name) => this.setState({last_name})}
+                value={this.state.last_name}
+                />
 
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Signup Screen</Text>
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter email"
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+                />
+                    
+                <TextInput
+                style = {styles.inputStyle}
+                placeholder = "Enter password"
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+                secureTextEntry={true}
+                />
 
-            <TextInput 
-            style = {styles.inputStyle}
-            placeholder = "Enter first name"
-            onChangeText={(first_name) => this.setState({first_name})}
-            value={this.state.first_name}
-            />
+                <Button
+                style = {styles.buttonStyle}
+                title="Sign Up"
+                onPress={() => this.signup()}
+                />
+                </View>
+            );
+        }
+        else {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Signup Screen</Text>
 
-            <TextInput 
-            style = {styles.inputStyle}
-            placeholder = "Enter last name"
-            onChangeText={(last_name) => this.setState({last_name})}
-            value={this.state.last_name}
-            />
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter first name"
+                onChangeText={(first_name) => this.setState({first_name})}
+                value={this.state.first_name}
+                />
 
-            <TextInput 
-            style = {styles.inputStyle}
-            placeholder = "Enter email"
-            onChangeText={(email) => this.setState({email})}
-            value={this.state.email}
-            />
-                
-            <TextInput
-            style = {styles.inputStyle}
-            placeholder = "Enter password"
-            onChangeText={(password) => this.setState({password})}
-            value={this.state.password}
-            secureTextEntry={true}
-            />
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter last name"
+                onChangeText={(last_name) => this.setState({last_name})}
+                value={this.state.last_name}
+                />
 
-            <Button
-            style = {styles.buttonStyle}
-            title="Sign Up"
-            onPress={() => this.signup()}
-            />
-            </View>
-        );
+                <TextInput 
+                style = {styles.inputStyle}
+                placeholder = "Enter email"
+                onChangeText={(email) => this.setState({email})}
+                value={this.state.email}
+                />
+                    
+                <TextInput
+                style = {styles.inputStyle}
+                placeholder = "Enter password"
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+                secureTextEntry={true}
+                />
+
+                <Text>There is already an account associated with this email address</Text>
+
+                <Button
+                style = {styles.buttonStyle}
+                title="Sign Up"
+                onPress={() => this.signup()}
+                />
+
+                </View>
+            );
+        }
     } 
 }
 
