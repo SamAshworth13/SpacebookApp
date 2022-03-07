@@ -123,7 +123,7 @@ class SignupScreen extends Component {
                 secureTextEntry={true}
                 />
 
-                <Text>There is already an account associated with this email address</Text>
+                <Text>The details enetered are not valid</Text>
 
                 <Button
                 style = {styles.buttonStyle}
