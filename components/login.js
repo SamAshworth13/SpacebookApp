@@ -17,9 +17,19 @@ class LoginScreen extends Component {
     super(props);
     this.state = {
       email: "SA@mmu.ac.uk",
-      password: "hello123"
+      password: "hello123",
+      incorrect_details: false
     };
   }
+
+  componentDidMount(){
+    this.setState({incorrect_details: false});
+  }
+
+  refresh = this.props.navigation.addListener('focus', () => {
+    this.setState({incorrect_details: false});
+  });
+
 
   login = () => {
     fetch('http://localhost:3333/api/1.0.0/login', {
@@ -40,12 +50,46 @@ class LoginScreen extends Component {
     })
     .catch((error) => {
         console.error(error);
+        this.setState({incorrect_details: true});
     });
 }
 
   render() {
 
-    return (
+    if (!this.state.incorrect_details) {
+        return (
+          <View style={styles.flexContainer} >
+
+              <TextInput 
+              style = {styles.inputStyle}
+              placeholder = "Enter email"
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+              />
+                  
+              <TextInput
+              style = {styles.inputStyle}
+              placeholder = "Enter password"
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password}
+              secureTextEntry={true}
+              />
+              <Button
+              style = {styles.buttonStyle}
+              title="Login"
+              onPress={() => this.login()}
+              />
+
+              <Button
+              style = {styles.buttonStyle}
+              title="Signup"
+              onPress={() => this.props.navigation.navigate("Signup")}
+              />
+          </View>
+      );
+    }
+    else {
+      return (
         <View style={styles.flexContainer} >
 
             <TextInput 
@@ -62,6 +106,10 @@ class LoginScreen extends Component {
             value={this.state.password}
             secureTextEntry={true}
             />
+
+            <Text>Incorrect login details entered</Text>
+
+
             <Button
             style = {styles.buttonStyle}
             title="Login"
@@ -74,7 +122,8 @@ class LoginScreen extends Component {
             onPress={() => this.props.navigation.navigate("Signup")}
             />
         </View>
-    );
+      );
+    }
   }
 
 }
