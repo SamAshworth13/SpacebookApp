@@ -185,6 +185,7 @@ class ViewFriendPostScreen extends Component {
                 
             
                 <Text>{this.state.post.author.first_name} {this.state.post.author.last_name}</Text>
+                <Text>{this.state.post.timestamp}</Text>
                 <Text>{this.state.post.text}</Text>
                 <Text>Likes: {this.state.post.numLikes}</Text>
 

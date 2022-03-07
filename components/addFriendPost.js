@@ -90,7 +90,7 @@ class FriendPostScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <View style={styles.flexContainer}>
                 
             
                 
@@ -99,6 +99,7 @@ class FriendPostScreen extends Component {
                 placeholder = 'Enter post here...'
                 onChangeText={(post_text) => this.setState({post_text})}
                 value= {this.state.post_text}
+                multiline = {true}
                 />
 
 
@@ -132,7 +133,9 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        
+        width: '80%',
+        height: '50%',
+        alignSelf: 'center'
     }
 });
 
