@@ -44,6 +44,7 @@ class FriendWallScreen extends Component {
             login_info: {},
             isLoading: true,
             feed: {},
+            info: {},
             other_user_id: {},
             cur_post: {}
         }
@@ -57,6 +58,7 @@ class FriendWallScreen extends Component {
                 login_info: data,
                 isLoading: true,
                 feed: {},
+                info: {},
                 cur_post: {}
             });
 
@@ -77,7 +79,8 @@ class FriendWallScreen extends Component {
             this.setState({
                 login_info: data,
                 isLoading: true,
-                feed: {}
+                feed: {},
+                info: {}
             });
 
             getOtherUser((id) => {
@@ -85,6 +88,7 @@ class FriendWallScreen extends Component {
                     other_user_id: id
                 })
 
+                this.getProfile();
                 this.getFeed();
             })
 
@@ -92,6 +96,27 @@ class FriendWallScreen extends Component {
         });  
     });
     
+    getProfile = () => {
+        console.log("Getting profile...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+                info: responseJson
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
 
     getFeed = () => {
         console.log("Getting wall...");
@@ -178,6 +203,7 @@ class FriendWallScreen extends Component {
             console.log("here", this.state);
             return (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text>{this.state.info.first_name} {this.state.info.last_name}</Text>
                     <ScrollView contentContainerStyle={styles.scrollView}>
                         <FlatList
                             data={this.state.feed}
