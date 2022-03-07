@@ -131,7 +131,7 @@ class FeedScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.flexContainer}>
                 <ScrollView contentContainerStyle={styles.scrollView}>
                     <FlatList
                         data={this.state.feed}
@@ -199,10 +199,10 @@ class FeedScreen extends Component {
 
 const styles = StyleSheet.create({
     flexContainer: {
-        flex: 9,
+        flex: 1,
         flexDirection: 'column', 
-        justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
+        justifyContent: 'center', 
+        alignItems: 'center' 
     },
 
     buttonStyle: {
@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
     },
 
     scrollView: {
+        flex: 1,
         height: '100%',
         width: '100%',
         margin: 20,

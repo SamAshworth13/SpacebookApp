@@ -49,8 +49,7 @@ class SignupScreen extends Component {
     render(){
         if (!this.state.bad_details) {
             return (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Signup Screen</Text>
+                <View style={styles.flexContainer}>
 
                 <TextInput 
                 style = {styles.inputStyle}
@@ -91,8 +90,7 @@ class SignupScreen extends Component {
         }
         else {
             return (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Signup Screen</Text>
+                <View style={styles.flexContainer}>
 
                 <TextInput 
                 style = {styles.inputStyle}
@@ -153,7 +151,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        
+        width: '50%'
     }
 });
 

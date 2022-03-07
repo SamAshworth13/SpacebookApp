@@ -60,6 +60,7 @@ class LoginScreen extends Component {
         return (
           <View style={styles.flexContainer} >
 
+            <View style={styles.flexContainer} >
               <TextInput 
               style = {styles.inputStyle}
               placeholder = "Enter email"
@@ -74,24 +75,29 @@ class LoginScreen extends Component {
               value={this.state.password}
               secureTextEntry={true}
               />
-              <Button
-              style = {styles.buttonStyle}
-              title="Login"
-              onPress={() => this.login()}
-              />
 
-              <Button
-              style = {styles.buttonStyle}
-              title="Signup"
-              onPress={() => this.props.navigation.navigate("Signup")}
-              />
+            </View>
+
+              <View style = {styles.buttonContainer}>
+                <Button
+                style = {styles.buttonStyle}
+                title="Login"
+                onPress={() => this.login()}
+                />
+
+                <Button
+                style = {styles.buttonStyle}
+                title="Signup"
+                onPress={() => this.props.navigation.navigate("Signup")}
+                />
+              </View>
           </View>
       );
     }
     else {
       return (
         <View style={styles.flexContainer} >
-
+          <View style={styles.flexContainer} >
             <TextInput 
             style = {styles.inputStyle}
             placeholder = "Enter email"
@@ -109,18 +115,21 @@ class LoginScreen extends Component {
 
             <Text>Incorrect login details entered</Text>
 
+          </View>
 
-            <Button
-            style = {styles.buttonStyle}
-            title="Login"
-            onPress={() => this.login()}
-            />
+            <View style = {styles.buttonContainer}>
+              <Button
+              style = {styles.buttonStyle}
+              title="Login"
+              onPress={() => this.login()}
+              />
 
-            <Button
-            style = {styles.buttonStyle}
-            title="Signup"
-            onPress={() => this.props.navigation.navigate("Signup")}
-            />
+              <Button
+              style = {styles.buttonStyle}
+              title="Signup"
+              onPress={() => this.props.navigation.navigate("Signup")}
+              />
+            </View>
         </View>
       );
     }
@@ -134,18 +143,23 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
     },
+
+    buttonContainer: {
+      flex: 1,
+      flexDirection: 'row', 
+      justifyContent: 'space-around', 
+      alignItems: 'flex-start' 
+  },
 
     buttonStyle: {
         width: 50,
         height: 50,
-        alignItems: 'center'
         
     },
 
     inputStyle: {
-        
+        width: '50%'
     }
 });
 
