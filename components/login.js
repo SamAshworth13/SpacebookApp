@@ -61,13 +61,19 @@ class LoginScreen extends Component {
           <View style={styles.flexContainer} >
 
             <View style={styles.flexContainer} >
+            
+            <View>
+              <Text>Email Address:</Text>
               <TextInput 
               style = {styles.inputStyle}
               placeholder = "Enter email"
               onChangeText={(email) => this.setState({email})}
               value={this.state.email}
               />
-                  
+            </View>
+            
+            <View>
+              <Text>Password:</Text>
               <TextInput
               style = {styles.inputStyle}
               placeholder = "Enter password"
@@ -75,6 +81,7 @@ class LoginScreen extends Component {
               value={this.state.password}
               secureTextEntry={true}
               />
+            </View>
 
             </View>
 
@@ -98,20 +105,27 @@ class LoginScreen extends Component {
       return (
         <View style={styles.flexContainer} >
           <View style={styles.flexContainer} >
-            <TextInput 
-            style = {styles.inputStyle}
-            placeholder = "Enter email"
-            onChangeText={(email) => this.setState({email})}
-            value={this.state.email}
-            />
-                
-            <TextInput
-            style = {styles.inputStyle}
-            placeholder = "Enter password"
-            onChangeText={(password) => this.setState({password})}
-            value={this.state.password}
-            secureTextEntry={true}
-            />
+
+            <View>
+              <Text>Email Address:</Text>
+              <TextInput 
+              style = {styles.inputStyle}
+              placeholder = "Enter email"
+              onChangeText={(email) => this.setState({email})}
+              value={this.state.email}
+              />
+            </View>
+            
+            <View>
+              <Text>Password:</Text>
+              <TextInput
+              style = {styles.inputStyle}
+              placeholder = "Enter password"
+              onChangeText={(password) => this.setState({password})}
+              value={this.state.password}
+              secureTextEntry={true}
+              />
+            </View>
 
             <Text>Incorrect login details entered</Text>
 

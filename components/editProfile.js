@@ -121,37 +121,47 @@ class EditProfileScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <View style={styles.flexContainer}>
                 
-            
-                
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = {this.state.info.first_name}
-                onChangeText={(first_name) => this.setState({first_name})}
-                defaultValue = {this.state.info.first_name}
-                />
+                <View>
+                    <Text>First Name:</Text>
+                    <TextInput 
+                    style = {styles.inputStyle}
+                    placeholder = {this.state.info.first_name}
+                    onChangeText={(first_name) => this.setState({first_name})}
+                    defaultValue = {this.state.info.first_name}
+                    />
+                </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = {this.state.info.last_name}
-                onChangeText={(last_name) => this.setState({last_name})}
-                defaultValue = {this.state.info.last_name}
-                />
+                <View>
+                    <Text>Last Name:</Text>
+                    <TextInput 
+                    style = {styles.inputStyle}
+                    placeholder = {this.state.info.last_name}
+                    onChangeText={(last_name) => this.setState({last_name})}
+                    defaultValue = {this.state.info.last_name}
+                    />
+                </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = {this.state.info.email}
-                onChangeText={(email) => this.setState({email})}
-                defaultValue = {this.state.info.email}
-                />
-                    
-                <TextInput
-                style = {styles.inputStyle}
-                placeholder = "Enter new password"
-                onChangeText={(password) => this.setState({password})}
-                secureTextEntry={true}
-                />
+                <View>
+                    <Text>Email Address:</Text>
+                    <TextInput 
+                    style = {styles.inputStyle}
+                    placeholder = {this.state.info.email}
+                    onChangeText={(email) => this.setState({email})}
+                    defaultValue = {this.state.info.email}
+                    />
+                </View>
+
+                <View>
+                    <Text>Password:</Text> 
+                    <TextInput
+                    style = {styles.inputStyle}
+                    placeholder = "Enter new password (leave blank to remain unchanged)"
+                    onChangeText={(password) => this.setState({password})}
+                    secureTextEntry={true}
+                    />
+                </View>
 
                 <Button
                 style = {styles.buttonStyle}
@@ -176,7 +186,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
     },
 
     buttonStyle: {
@@ -187,7 +196,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        
+        width: '100%'
     }
 });
 

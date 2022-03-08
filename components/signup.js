@@ -51,40 +51,52 @@ class SignupScreen extends Component {
             return (
                 <View style={styles.flexContainer}>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter first name"
-                onChangeText={(first_name) => this.setState({first_name})}
-                value={this.state.first_name}
-                />
+                    <View>
+                        <Text>First Name:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter first name"
+                        onChangeText={(first_name) => this.setState({first_name})}
+                        value={this.state.first_name}
+                        />
+                    </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter last name"
-                onChangeText={(last_name) => this.setState({last_name})}
-                value={this.state.last_name}
-                />
+                    <View>
+                        <Text>Last Name:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter last name"
+                        onChangeText={(last_name) => this.setState({last_name})}
+                        value={this.state.last_name}
+                        />
+                    </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter email"
-                onChangeText={(email) => this.setState({email})}
-                value={this.state.email}
-                />
+                    <View>
+                        <Text>Email Address:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter email"
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
+                        />
+                    </View>
                     
-                <TextInput
-                style = {styles.inputStyle}
-                placeholder = "Enter password"
-                onChangeText={(password) => this.setState({password})}
-                value={this.state.password}
-                secureTextEntry={true}
-                />
+                    <View>
+                        <Text>Password:</Text>
+                        <TextInput
+                        style = {styles.inputStyle}
+                        placeholder = "Enter password"
+                        onChangeText={(password) => this.setState({password})}
+                        value={this.state.password}
+                        secureTextEntry={true}
+                        />
+                    </View>
 
-                <Button
-                style = {styles.buttonStyle}
-                title="Sign Up"
-                onPress={() => this.signup()}
-                />
+                    <Button
+                    style = {styles.buttonStyle}
+                    title="Sign Up"
+                    onPress={() => this.signup()}
+                    />
                 </View>
             );
         }
@@ -92,42 +104,54 @@ class SignupScreen extends Component {
             return (
                 <View style={styles.flexContainer}>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter first name"
-                onChangeText={(first_name) => this.setState({first_name})}
-                value={this.state.first_name}
-                />
+                    <View>
+                        <Text>First Name:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter first name"
+                        onChangeText={(first_name) => this.setState({first_name})}
+                        value={this.state.first_name}
+                        />
+                    </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter last name"
-                onChangeText={(last_name) => this.setState({last_name})}
-                value={this.state.last_name}
-                />
+                    <View>
+                        <Text>Last Name:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter last name"
+                        onChangeText={(last_name) => this.setState({last_name})}
+                        value={this.state.last_name}
+                        />
+                    </View>
 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = "Enter email"
-                onChangeText={(email) => this.setState({email})}
-                value={this.state.email}
-                />
+                    <View>
+                        <Text>Email Address:</Text>
+                        <TextInput 
+                        style = {styles.inputStyle}
+                        placeholder = "Enter email"
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
+                        />
+                    </View>
                     
-                <TextInput
-                style = {styles.inputStyle}
-                placeholder = "Enter password"
-                onChangeText={(password) => this.setState({password})}
-                value={this.state.password}
-                secureTextEntry={true}
-                />
+                    <View>
+                        <Text>Password:</Text>
+                        <TextInput
+                        style = {styles.inputStyle}
+                        placeholder = "Enter password"
+                        onChangeText={(password) => this.setState({password})}
+                        value={this.state.password}
+                        secureTextEntry={true}
+                        />
+                    </View>
 
-                <Text>The details enetered are not valid</Text>
+                    <Text>The details entered are not valid</Text>
 
-                <Button
-                style = {styles.buttonStyle}
-                title="Sign Up"
-                onPress={() => this.signup()}
-                />
+                    <Button
+                    style = {styles.buttonStyle}
+                    title="Sign Up"
+                    onPress={() => this.signup()}
+                    />
 
                 </View>
             );
@@ -151,7 +175,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        width: '50%'
+        width: '100%'
     }
 });
 

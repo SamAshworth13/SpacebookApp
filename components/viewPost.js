@@ -151,32 +151,35 @@ class ViewPostScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <View style={styles.flexContainer}>
                 
-            
-                <Text>{this.state.post.author.first_name} {this.state.post.author.last_name}</Text>
-                <Text>{this.state.post.timestamp}</Text>
-                <Text>{this.state.post.text}</Text>
-                <Text>Likes: {this.state.post.numLikes}</Text>
+                <View style={styles.flexContainer}>
+                    <Text>{this.state.post.author.first_name} {this.state.post.author.last_name}</Text>
+                    <Text>{this.state.post.timestamp}</Text>
+                    <Text>{this.state.post.text}</Text>
+                    <Text>Likes: {this.state.post.numLikes}</Text>
+                </View>
 
-                {this.state.post.author.user_id == this.state.login_info.id ? <Button
-                    style = {styles.buttonStyle}
-                    title="Edit"
-                    onPress={() => {
-                        this.editPost();
-                                
-                    }}
-                    /> : null}
+                <View style={styles.buttonContainer}>
+                    {this.state.post.author.user_id == this.state.login_info.id ? <Button
+                        style = {styles.buttonStyle}
+                        title="Edit"
+                        onPress={() => {
+                            this.editPost();
+                                    
+                        }}
+                        /> : null}
 
-                {this.state.post.author.user_id == this.state.login_info.id ? <Button
-                    style = {styles.buttonStyle}
-                    title="Delete"
-                    onPress={() => {
-                        this.deletePost()
-                        .then(this.props.navigation.navigate("Home"))
+                    {this.state.post.author.user_id == this.state.login_info.id ? <Button
+                        style = {styles.buttonStyle}
+                        title="Delete"
+                        onPress={() => {
+                            this.deletePost()
+                            .then(this.props.navigation.navigate("Home"))
+                            }
                         }
-                    }
-                /> : null}
+                    /> : null}
+                </View>
 
             </View>
             );
@@ -195,12 +198,20 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start' 
     },
 
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start' 
+      },
+
     buttonStyle: {
         width: 50,
         height: 50,
         alignItems: 'center'
         
     },
+    
 
     inputStyle: {
         

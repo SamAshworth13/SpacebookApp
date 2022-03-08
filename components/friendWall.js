@@ -305,6 +305,18 @@ class FriendWallScreen extends Component {
                                             {item.author.user_id == this.state.login_info.id ? <Button 
                                             
                                             style = {styles.buttonStyle}
+                                            title="Edit"
+                                            onPress={() => {
+                                                this.setState({cur_post: item, isLoading: true}, () => {
+                                                    this.editPost()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+
+                                            {item.author.user_id == this.state.login_info.id ? <Button 
+                                            
+                                            style = {styles.buttonStyle}
                                             title="Delete"
                                             onPress={() => {
                                                 this.deletePost(item.post_id)
@@ -315,17 +327,6 @@ class FriendWallScreen extends Component {
                                             }
                                             /> : null}
 
-                                            {item.author.user_id == this.state.login_info.id ? <Button 
-                                            
-                                            style = {styles.buttonStyle}
-                                            title="Edit"
-                                            onPress={() => {
-                                                this.setState({cur_post: item, isLoading: true}, () => {
-                                                    this.editPost()
-                                                })
-                                                }
-                                            }
-                                            /> : null}
                                         </View>
                                     </View>
                                 )}
