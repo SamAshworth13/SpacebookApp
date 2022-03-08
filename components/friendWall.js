@@ -202,64 +202,69 @@ class FriendWallScreen extends Component {
 
             console.log("here", this.state);
             return (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>{this.state.info.first_name} {this.state.info.last_name}</Text>
-                    <ScrollView contentContainerStyle={styles.scrollView}>
-                        <FlatList
-                            data={this.state.feed}
-                            renderItem={({item}) => (
-                                <View>
-                                    <Text>{item.author.first_name} {item.author.last_name}:</Text>
-                                    <Text>{item.text}</Text>
-                                    <Text>Likes: {item.numLikes}</Text>
-
-                                    <Button
-                                    style = {styles.buttonStyle}
-                                    title="View"
-                                    onPress={() => {
-                                        this.setState({cur_post: item}, () => {
-                                            this.viewPost()
-                                        })
-                                        
-                                    }}
-                                    />
-
-                                    {item.author.user_id != this.state.login_info.id ? <Button 
-                                    
-                                    style = {styles.buttonStyle}
-                                    title="Like"
-                                    onPress={() => {
-                                        this.addLike(item.post_id)
-                                        this.setState({isLoading: true}, () => {
-                                            this.getFeed()
-                                        })
-                                        }
-                                    }
-                                    /> : null}
-
-                                    {item.author.user_id != this.state.login_info.id ? <Button
-                                    style = {styles.buttonStyle}
-                                    title="Unlike"
-                                    onPress={() => {
-                                        this.removeLike(item.post_id)
-                                        this.setState({isLoading: true}, () => {
-                                            this.getFeed()
-                                        })
-                                        }
-                                    }
-                                    /> : null}
-                                </View>
-                            )}
-                            keyExtractor={(item,index) => item.post_id}
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View>
+                        <Text style={styles.centerText}>{this.state.info.first_name} {this.state.info.last_name}</Text>
+                        
+                        <Button
+                            style = {styles.buttonStyle}
+                            title="Add post to this wall"
+                            onPress={() => this.props.navigation.navigate("Friend Post")}
                         />
-                    </ScrollView>
+                        <View style={styles.flexContainer}>
 
-                    <Button
-                        style = {styles.buttonStyle}
-                        title="Add post to this wall"
-                        onPress={() => this.props.navigation.navigate("Friend Post")}
-                    />
-                </View>
+                            <FlatList
+                                data={this.state.feed}
+                                renderItem={({item}) => (
+                                    <View style={styles.itemContainer}>
+                                        <Text>{item.author.first_name} {item.author.last_name}:</Text>
+                                        <Text>{item.text}</Text>
+                                        <Text>Likes: {item.numLikes}</Text>
+
+                                        <View style={styles.buttonContainer}>
+                                            <Button
+                                            style = {styles.buttonStyle}
+                                            title="View"
+                                            onPress={() => {
+                                                this.setState({cur_post: item}, () => {
+                                                    this.viewPost()
+                                                })
+                                                
+                                            }}
+                                            />
+
+                                            {item.author.user_id != this.state.login_info.id ? <Button 
+                                            
+                                            style = {styles.buttonStyle}
+                                            title="Like"
+                                            onPress={() => {
+                                                this.addLike(item.post_id)
+                                                this.setState({isLoading: true}, () => {
+                                                    this.getFeed()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+
+                                            {item.author.user_id != this.state.login_info.id ? <Button
+                                            style = {styles.buttonStyle}
+                                            title="Unlike"
+                                            onPress={() => {
+                                                this.removeLike(item.post_id)
+                                                this.setState({isLoading: true}, () => {
+                                                    this.getFeed()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+                                        </View>
+                                    </View>
+                                )}
+                                keyExtractor={(item,index) => item.post_id}
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
                 
             );
 
@@ -271,10 +276,30 @@ class FriendWallScreen extends Component {
 
 const styles = StyleSheet.create({
     flexContainer: {
-        flex: 9,
+        flex: 1,
         flexDirection: 'column', 
-        justifyContent: 'space-around', 
+        justifyContent: 'flex-start', 
         alignItems: 'flex-start' 
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start',
+        marginBottom: 20
+    },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start'
+    },
+
+    centerText: {
+        alignSelf: 'center'
+
     },
 
     buttonStyle: {
