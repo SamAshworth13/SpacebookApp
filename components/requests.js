@@ -122,43 +122,49 @@ class RequestsScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                
+                <ScrollView contentContainerStyle={styles.scrollView}>
+                    <View>
+                        <View style={styles.flexContainer}>
+                            
 
-                <FlatList
-                    data={this.state.outstanding}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.first_name} {item.last_name}</Text>
+                            <FlatList
+                                data={this.state.outstanding}
+                                renderItem={({item}) => (
+                                    <View style={styles.itemContainer}>
+                                        <Text>{item.first_name} {item.last_name}</Text>
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="Accept"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.acceptRequest()
-                                        this.getRequests()
-                                    });
-                                }
-                                }
-                            />
+                                        <View style={styles.buttonContainer}>
+                                            <Button
+                                                style = {styles.buttonStyle}
+                                                title="Accept"
+                                                onPress={() => {
+                                                    this.setState({other_user_id: item.user_id}, () => {
+                                                        this.acceptRequest()
+                                                        this.getRequests()
+                                                    });
+                                                }
+                                                }
+                                            />
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="Delete"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.deleteRequest()
-                                        this.getRequests()
-                                    });
-                                }
-                                }
+                                            <Button
+                                                style = {styles.buttonStyle}
+                                                title="Delete"
+                                                onPress={() => {
+                                                    this.setState({other_user_id: item.user_id}, () => {
+                                                        this.deleteRequest()
+                                                        this.getRequests()
+                                                    });
+                                                }
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+                                )}
+                                keyExtractor={(item,index) => item.user_id}
                             />
                         </View>
-                    )}
-                    keyExtractor={(item,index) => item.user_id}
-                />
-            </View>
+                    </View>
+                </ScrollView>
             );
 
             
@@ -171,8 +177,23 @@ const styles = StyleSheet.create({
     flexContainer: {
         flex: 1,
         flexDirection: 'column', 
-        justifyContent: 'space-around', 
+        justifyContent: 'flex-start', 
         alignItems: 'flex-start' 
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start',
+        marginBottom: 20
+    },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start'
     },
 
     buttonStyle: {
@@ -184,7 +205,15 @@ const styles = StyleSheet.create({
 
     inputStyle: {
         
-    }
+    },
+
+    scrollView: {
+        flex: 1,
+        height: '100%',
+        width: '100%',
+        margin: 20,
+        alignSelf: 'center',
+    },
 });
 
 export default RequestsScreen;

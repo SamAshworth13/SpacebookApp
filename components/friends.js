@@ -124,57 +124,60 @@ class FriendsScreen extends Component {
             console.log("here", this.state);
             return (
                 <ScrollView contentContainerStyle={styles.scrollView}>
-                    <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    
-                    
-                        <Text>{this.state.profile.friend_count} Friend(s) (including pending friend requests)</Text>
+                    <View>
+                        <View style={styles.flexContainer}>
                         
-                        <TextInput 
-                        style = {styles.inputStyle}
-                        placeholder = 'Search...'
-                        onChangeText={(search_text) => {
-                            this.setState({search_text}, () => {
-                                this.search()
-                            });
+                        
+                            <Text>{this.state.profile.friend_count} Friend(s) (including pending friend requests)</Text>
                             
-                        }
-                        }
-                        value= {this.state.search_text}
-                        />
+                            <TextInput 
+                            style = {styles.inputStyle}
+                            placeholder = 'Search...'
+                            onChangeText={(search_text) => {
+                                this.setState({search_text}, () => {
+                                    this.search()
+                                });
+                                
+                            }
+                            }
+                            value= {this.state.search_text}
+                            />
 
-                        <FlatList
-                            data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
-                            renderItem={({item}) => (
-                                <View>
-                                    <Text>{item.user_givenname} {item.user_familyname}</Text>
+                            <FlatList
+                                data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
+                                renderItem={({item}) => (
+                                    <View style={styles.itemContainer}>
+                                        <Text>{item.user_givenname} {item.user_familyname}</Text>
 
-                                    <Button
-                                        style = {styles.buttonStyle}
-                                        title="View Profile"
-                                        onPress={() => {
-                                            this.setState({other_user_id: item.user_id}, () => {
-                                                this.viewProfile()
-                                            });
-                                        }
-                                        }
-                                    />
+                                        <View style={styles.buttonContainer}>
+                                            <Button
+                                                style = {styles.buttonStyle}
+                                                title="View Profile"
+                                                onPress={() => {
+                                                    this.setState({other_user_id: item.user_id}, () => {
+                                                        this.viewProfile()
+                                                    });
+                                                }
+                                                }
+                                            />
 
-                                    <Button
-                                        style = {styles.buttonStyle}
-                                        title="View Wall"
-                                        onPress={() => {
-                                            this.setState({other_user_id: item.user_id}, () => {
-                                                this.viewWall()
-                                            });
-                                        }
-                                        }
-                                    />
-
-                                </View>
-                            )}
-                            keyExtractor={(item,index) => item.user_id}
-                        />
-                    
+                                            <Button
+                                                style = {styles.buttonStyle}
+                                                title="View Wall"
+                                                onPress={() => {
+                                                    this.setState({other_user_id: item.user_id}, () => {
+                                                        this.viewWall()
+                                                    });
+                                                }
+                                                }
+                                            />
+                                        </View>
+                                    </View>
+                                )}
+                                keyExtractor={(item,index) => item.user_id}
+                            />
+                        
+                        </View>
                     </View>
                 </ScrollView>
             );
@@ -189,8 +192,23 @@ const styles = StyleSheet.create({
     flexContainer: {
         flex: 1,
         flexDirection: 'column', 
-        justifyContent: 'space-around', 
+        justifyContent: 'flex-start', 
         alignItems: 'flex-start' 
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start',
+        marginBottom: 20
+    },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start'
     },
 
     buttonStyle: {
@@ -201,7 +219,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        
+        width: '100%'
     },
 
     scrollView: {

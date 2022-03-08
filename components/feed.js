@@ -131,63 +131,71 @@ class FeedScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={styles.flexContainer}>
                 <ScrollView contentContainerStyle={styles.scrollView}>
-                    <FlatList
-                        data={this.state.feed}
-                        renderItem={({item}) => (
-                            <View>
-                                <Text>{item.author.first_name} {item.author.last_name}:</Text>
-                                <Text>{item.text}</Text>
-                                <Text>Likes: {item.numLikes}</Text>
+                    <View>
 
-                                <Button
-                                style = {styles.buttonStyle}
-                                title="View"
-                                onPress={() => {
-                                    this.setState({to_be_edited: item}, () => {
-                                        this.viewPost()
-                                    })
-                                    
-                                }}
-                                />
+                        <Button
+                            style = {styles.buttonStyle}
+                            title="Add post to my wall"
+                            onPress={() => this.props.navigation.navigate("New Post")}
+                        />
 
-                                {item.author.user_id == this.state.login_info.id ? <Button
-                                style = {styles.buttonStyle}
-                                title="Edit"
-                                onPress={() => {
-                                    this.setState({to_be_edited: item}, () => {
-                                        this.editPost()
-                                    })
-                                    
-                                }}
-                                /> : null}
+                        <View style={styles.flexContainer}>
+                            <FlatList
+                                data={this.state.feed}
+                                renderItem={({item}) => (
+                                    <View style={styles.itemContainer}>
+                                        <Text>{item.author.first_name} {item.author.last_name}:</Text>
+                                        <Text>{item.text}</Text>
+                                        <Text>Likes: {item.numLikes}</Text>
 
-                                {item.author.user_id == this.state.login_info.id ? <Button
-                                style = {styles.buttonStyle}
-                                title="Delete"
-                                onPress={() => {
-                                    this.deletePost(item.post_id)
-                                    this.setState({feed: {}}, () => {
-                                        this.getFeed()
-                                    })
-                                    }
-                                }
-                                /> : null}
+                                        <View style={styles.buttonContainer}>
+                                            <Button
+                                            style = {styles.buttonStyle}
+                                            title="View"
+                                            onPress={() => {
+                                                this.setState({to_be_edited: item}, () => {
+                                                    this.viewPost()
+                                                })
+                                                
+                                            }}
+                                            />
+
+                                            {item.author.user_id == this.state.login_info.id ? <Button
+                                            style = {styles.buttonStyle}
+                                            title="Edit"
+                                            onPress={() => {
+                                                this.setState({to_be_edited: item}, () => {
+                                                    this.editPost()
+                                                })
+                                                
+                                            }}
+                                            /> : null}
+
+                                            {item.author.user_id == this.state.login_info.id ? <Button
+                                            style = {styles.buttonStyle}
+                                            title="Delete"
+                                            onPress={() => {
+                                                this.deletePost(item.post_id)
+                                                this.setState({feed: {}}, () => {
+                                                    this.getFeed()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+
+                                        </View>
 
 
-                            </View>
-                        )}
-                        keyExtractor={(item,index) => item.post_id}
-                    />
+                                    </View>
+                                )}
+                                keyExtractor={(item,index) => item.post_id}
+                            />
+                        </View>
+                    </View>
                 </ScrollView>
 
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Add post to my wall"
-                    onPress={() => this.props.navigation.navigate("New Post")}
-                />
-            </View>
+                
                 
             );
 
@@ -201,8 +209,23 @@ const styles = StyleSheet.create({
     flexContainer: {
         flex: 1,
         flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start' 
+    },
+
+    outerContainer: {
+        flex: 1,
+        flexDirection: 'column', 
         justifyContent: 'center', 
         alignItems: 'center' 
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start',
+        marginBottom: 20
     },
 
     buttonStyle: {
@@ -211,6 +234,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
         
     },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start' 
+      },
 
     headerStyle: {
         flex: 1,

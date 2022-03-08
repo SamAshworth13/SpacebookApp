@@ -109,53 +109,57 @@ class SearchScreen extends Component {
             return (
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View>
-            
+                    <View style={styles.flexContainer}>
                 
-                <TextInput 
-                style = {styles.inputStyle}
-                placeholder = 'Search...'
-                onChangeText={(search_text) => {
-                    this.setState({search_text}, () => {
-                        this.search()
-                      });
                     
-                }
-                }
-                value= {this.state.search_text}
-                />
+                    <TextInput 
+                    style = {styles.inputStyle}
+                    placeholder = 'Search...'
+                    onChangeText={(search_text) => {
+                        this.setState({search_text}, () => {
+                            this.search()
+                        });
+                        
+                    }
+                    }
+                    value= {this.state.search_text}
+                    />
 
-                <FlatList
-                    data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
-                    renderItem={({item}) => (
-                        <View>
-                            <Text>{item.user_givenname} {item.user_familyname}</Text>
+                    <FlatList
+                        data={this.state.results.filter((item)=>item.user_id !== this.state.login_info.id)}
+                        renderItem={({item}) => (
+                            <View style={styles.itemContainer}>
+                                <Text>{item.user_givenname} {item.user_familyname}</Text>
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="View Profile"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.viewProfile()
-                                    });
-                                }
-                                }
-                            />
+                                <View style={styles.buttonContainer}>
+                                    <Button
+                                        style = {styles.buttonStyle}
+                                        title="View Profile"
+                                        onPress={() => {
+                                            this.setState({other_user_id: item.user_id}, () => {
+                                                this.viewProfile()
+                                            });
+                                        }
+                                        }
+                                    />
 
-                            <Button
-                                style = {styles.buttonStyle}
-                                title="Add Friend"
-                                onPress={() => {
-                                    this.setState({other_user_id: item.user_id}, () => {
-                                        this.sendRequest()
-                                    });
-                                }
-                                }
-                            />
+                                    <Button
+                                        style = {styles.buttonStyle}
+                                        title="Add Friend"
+                                        onPress={() => {
+                                            this.setState({other_user_id: item.user_id}, () => {
+                                                this.sendRequest()
+                                            });
+                                        }
+                                        }
+                                    />
+                                </View>
 
-                        </View>
-                    )}
-                    keyExtractor={(item,index) => item.user_id}
-                />
+                            </View>
+                        )}
+                        keyExtractor={(item,index) => item.user_id}
+                    />
+                    </View>
                 </View>
             </ScrollView>
             );
@@ -170,8 +174,23 @@ const styles = StyleSheet.create({
     flexContainer: {
         flex: 1,
         flexDirection: 'column', 
-        justifyContent: 'space-around', 
+        justifyContent: 'flex-start', 
         alignItems: 'flex-start' 
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: 'column', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start',
+        marginBottom: 20
+    },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
+        justifyContent: 'flex-start', 
+        alignItems: 'flex-start'
     },
 
     buttonStyle: {
@@ -182,7 +201,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyle: {
-        
+        width: '100%'
     },
 
     scrollView: {

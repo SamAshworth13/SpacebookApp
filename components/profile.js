@@ -107,29 +107,37 @@ class ProfileScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <View style={styles.flexContainer}>
                 
-            
-                <Image
-                    source={{
-                    uri: this.state.photo,
-                    }}
-                    style= {styles.imageStyle}
-                />
-                <Text>Name: {this.state.info.first_name} {this.state.info.last_name}</Text>
-                <Text>Email address: {this.state.info.email}</Text>
-                
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Edit Profile"
-                    onPress={() => this.props.navigation.navigate("Update Profile")}
-                />
+                <View>
+                    <Image
+                        source={{
+                        uri: this.state.photo,
+                        }}
+                        style= {styles.imageStyle}
+                    />
+                    
 
-                <Button
-                    style = {styles.buttonStyle}
-                    title="Take New Profile Picture"
-                    onPress={() => this.props.navigation.navigate("Take Photo")}
-                />
+                </View>
+
+                <View style={styles.flexContainer}>
+                    <Text>Name: {this.state.info.first_name} {this.state.info.last_name}</Text>
+                    <Text>Email address: {this.state.info.email}</Text>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    <Button
+                        style = {styles.buttonStyle}
+                        title="Edit Profile"
+                        onPress={() => this.props.navigation.navigate("Update Profile")}
+                    />
+
+                    <Button
+                        style = {styles.buttonStyle}
+                        title="Take New Profile Picture"
+                        onPress={() => this.props.navigation.navigate("Take Photo")}
+                    />
+                </View>
             </View>
                 
             );
@@ -144,6 +152,12 @@ const styles = StyleSheet.create({
     flexContainer: {
         flex: 1,
         flexDirection: 'column', 
+        justifyContent: 'space-around'
+    },
+
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row', 
         justifyContent: 'space-around', 
         alignItems: 'flex-start' 
     },
@@ -151,8 +165,6 @@ const styles = StyleSheet.create({
     buttonStyle: {
         width: 50,
         height: 50,
-        alignItems: 'center'
-        
     },
 
     imageStyle: {

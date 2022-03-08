@@ -134,7 +134,7 @@ class ProfileScreen extends Component {
 
             console.log("here", this.state);
             return (
-            <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <View style={styles.flexContainer}>
                 
             
                 <Image
@@ -161,14 +161,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column', 
         justifyContent: 'space-around', 
-        alignItems: 'flex-start' 
-    },
-
-    buttonStyle: {
-        width: 50,
-        height: 50,
-        alignItems: 'center'
-        
     },
 
     imageStyle: {

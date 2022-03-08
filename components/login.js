@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row', 
       justifyContent: 'space-around', 
       alignItems: 'flex-start' 
-  },
+    },
 
     buttonStyle: {
         width: 50,
