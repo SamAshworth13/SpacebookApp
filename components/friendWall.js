@@ -15,6 +15,19 @@ const storeData = async (login, user_id, post_id) => {
     }
   }
 
+  const editStoreData = async (login, user_id, post) => {
+    try {
+      const jsonLogin = JSON.stringify(login)
+      const jsonUser = JSON.stringify(user_id)
+      const jsonPost = JSON.stringify(post)
+      await AsyncStorage.setItem('@spacebook_details', jsonLogin)
+      await AsyncStorage.setItem('@other_user_id', jsonUser)
+      await AsyncStorage.setItem('@post', jsonPost)
+    } catch (e) {
+        console.error(e);
+    }
+  }
+
 const getData = async (done) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@spacebook_details')
@@ -67,6 +80,7 @@ class FriendWallScreen extends Component {
                     other_user_id: id
                 })
 
+                this.getProfile();
                 this.getFeed();
             })
 
@@ -80,7 +94,8 @@ class FriendWallScreen extends Component {
                 login_info: data,
                 isLoading: true,
                 feed: {},
-                info: {}
+                info: {},
+                cur_post: {}
             });
 
             getOtherUser((id) => {
@@ -109,7 +124,7 @@ class FriendWallScreen extends Component {
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
-                isLoading: false,
+                isLoading: true,
                 info: responseJson
             })
         })
@@ -117,6 +132,8 @@ class FriendWallScreen extends Component {
             console.log(error);
         });
       }
+
+      
 
     getFeed = () => {
         console.log("Getting wall...");
@@ -138,9 +155,9 @@ class FriendWallScreen extends Component {
         .catch((error) => {
             console.log(error);
         });
-      }
+    }
 
-      addLike = (post_id) => {
+    addLike = (post_id) => {
         console.log("Adding Like...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
             method: 'POST',
@@ -162,7 +179,7 @@ class FriendWallScreen extends Component {
         });
       }
 
-      removeLike = (post_id) => {
+    removeLike = (post_id) => {
         console.log("Removing Like...");
         return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id + '/like', {
             method: 'DELETE',
@@ -184,10 +201,37 @@ class FriendWallScreen extends Component {
         });
       }
 
-      viewPost = () => {
+    viewPost = () => {
         storeData(this.state.login_info, this.state.other_user_id, this.state.cur_post.post_id);
         this.props.navigation.navigate("View Friend Post");
     }
+
+    editPost = () => {
+        editStoreData(this.state.login_info, this.state.other_user_id, this.state.cur_post);
+        this.props.navigation.navigate("Edit Friend Post");
+      }
+
+    deletePost = (post_id) => {
+        console.log("Deleting post...");
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + post_id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': this.state.login_info.token
+            }
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+            this.setState({
+                isLoading: false,
+                feed: responseJson
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
     
 
     render(){
@@ -253,6 +297,31 @@ class FriendWallScreen extends Component {
                                                 this.removeLike(item.post_id)
                                                 this.setState({isLoading: true}, () => {
                                                     this.getFeed()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+
+                                            {item.author.user_id == this.state.login_info.id ? <Button 
+                                            
+                                            style = {styles.buttonStyle}
+                                            title="Delete"
+                                            onPress={() => {
+                                                this.deletePost(item.post_id)
+                                                this.setState({isLoading: true}, () => {
+                                                    this.getFeed()
+                                                })
+                                                }
+                                            }
+                                            /> : null}
+
+                                            {item.author.user_id == this.state.login_info.id ? <Button 
+                                            
+                                            style = {styles.buttonStyle}
+                                            title="Edit"
+                                            onPress={() => {
+                                                this.setState({cur_post: item, isLoading: true}, () => {
+                                                    this.editPost()
                                                 })
                                                 }
                                             }

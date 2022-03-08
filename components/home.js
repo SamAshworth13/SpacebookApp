@@ -42,6 +42,15 @@ class HomeScreen extends Component {
             });
         });  
     }
+
+    refresh = this.props.navigation.addListener('focus', () => {
+        getData((data) => {
+            this.setState({
+                login_info: data,
+                isLoading: false
+            });
+        });  
+    });
     
     logout = () => {
         fetch('http://localhost:3333/api/1.0.0/logout', {

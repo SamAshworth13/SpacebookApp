@@ -44,7 +44,7 @@ class FeedScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false,
+                isLoading: true,
                 feed: {}
             });
 
@@ -56,7 +56,7 @@ class FeedScreen extends Component {
         getData((data) => {
             this.setState({
                 login_info: data,
-                isLoading: false,
+                isLoading: true,
                 feed: {}
             });
 
@@ -165,7 +165,7 @@ class FeedScreen extends Component {
                                             style = {styles.buttonStyle}
                                             title="Edit"
                                             onPress={() => {
-                                                this.setState({to_be_edited: item}, () => {
+                                                this.setState({to_be_edited: item, isLoading: true}, () => {
                                                     this.editPost()
                                                 })
                                                 
@@ -177,7 +177,7 @@ class FeedScreen extends Component {
                                             title="Delete"
                                             onPress={() => {
                                                 this.deletePost(item.post_id)
-                                                this.setState({feed: {}}, () => {
+                                                this.setState({feed: {}, isLoading: true}, () => {
                                                     this.getFeed()
                                                 })
                                                 }

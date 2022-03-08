@@ -22,7 +22,17 @@ const getPost = async (done) => {
     }
 }
 
-class EditPostScreen extends Component {
+const getOtherUser = async (done) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@other_user_id')
+        const data = JSON.parse(jsonValue);
+        return done(data);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+class EditFriendPostScreen extends Component {
     constructor(props){
         super(props);
 
@@ -30,7 +40,8 @@ class EditPostScreen extends Component {
             login_info: {},
             isLoading: true,
             post: {},
-            new_text: ""
+            new_text: "",
+            other_user_id: {}
         }
     }
 
@@ -46,6 +57,12 @@ class EditPostScreen extends Component {
             getPost((value) => {
                 this.setState({
                     post: value
+                })
+
+                getOtherUser((user_id) => {
+                    this.setState({
+                        other_user_id: user_id
+                    })
                 })
 
             })
@@ -68,17 +85,23 @@ class EditPostScreen extends Component {
                     post: value
                 })
 
+                getOtherUser((user_id) => {
+                    this.setState({
+                        other_user_id: user_id
+                    })
+                })
+
             })
 
             
-        }); 
+        });   
     });
 
     editPost = () => {
         let to_send = this.state.post
         to_send.text = this.state.new_text
         console.log("Updating post...");
-        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.login_info.id + '/post/' + this.state.post.post_id, {
+        return fetch('http://localhost:3333/api/1.0.0/user/' + this.state.other_user_id + '/post/' + this.state.post.post_id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -93,7 +116,7 @@ class EditPostScreen extends Component {
                 isLoading: false
             })
         })
-        .then(this.props.navigation.navigate("Home"))
+        .then(this.props.navigation.navigate("Friend's Wall"))
         .catch((error) => {
             console.log(error);
         });
@@ -161,4 +184,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default EditPostScreen;
+export default EditFriendPostScreen;
