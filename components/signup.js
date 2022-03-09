@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import {
-  Text, TextInput, View, Button, StyleSheet, Alert, ScrollView,
+  Text, TextInput, View, Button, StyleSheet,
 } from 'react-native';
 
 class SignupScreen extends Component {

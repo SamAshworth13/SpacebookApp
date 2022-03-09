@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, Image, TextInput, View, Button, StyleSheet, Alert, ScrollView,
+  Text, Image, View, StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -135,12 +135,14 @@ class ProfileScreen extends Component {
         />
         <Text>
           Name:
+          {' '}
           {this.state.info.first_name}
           {' '}
           {this.state.info.last_name}
         </Text>
         <Text>
           Email address:
+          {' '}
           {this.state.info.email}
         </Text>
 

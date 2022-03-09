@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, TextInput, View, Button, StyleSheet, Alert, ScrollView,
+  Text, View, Button, StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -228,6 +228,7 @@ class ViewFriendPostScreen extends Component {
           <Text>{this.state.post.text}</Text>
           <Text>
             Likes:
+            {' '}
             {this.state.post.numLikes}
           </Text>
         </View>
@@ -309,10 +310,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     alignItems: 'center',
-
-  },
-
-  inputStyle: {
 
   },
 });

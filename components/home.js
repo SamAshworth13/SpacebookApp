@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, TextInput, View, Button, StyleSheet, Alert, ScrollView,
+  Text, View, Button, StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -148,10 +148,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     alignItems: 'center',
-
-  },
-
-  inputStyle: {
 
   },
 });

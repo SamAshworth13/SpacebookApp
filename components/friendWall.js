@@ -50,57 +50,6 @@ const getOtherUser = async (done) => {
   }
 };
 
-const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-
-  itemContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  },
-
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-
-  centerText: {
-    alignSelf: 'center',
-
-  },
-
-  buttonStyle: {
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-
-  },
-
-  headerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'flex-start',
-  },
-
-  scrollView: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
-    margin: 20,
-    alignSelf: 'center',
-  },
-});
-
 class FriendWallScreen extends Component {
   constructor(props) {
     super(props);
@@ -314,6 +263,7 @@ class FriendWallScreen extends Component {
                   <Text>{item.text}</Text>
                   <Text>
                     Likes:
+                    {' '}
                     {item.numLikes}
                   </Text>
 
@@ -394,5 +344,56 @@ class FriendWallScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  flexContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
+
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+
+  centerText: {
+    alignSelf: 'center',
+
+  },
+
+  buttonStyle: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+
+  },
+
+  headerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+  },
+
+  scrollView: {
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    margin: 20,
+    alignSelf: 'center',
+  },
+});
 
 export default FriendWallScreen;

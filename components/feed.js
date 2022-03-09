@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, Image, TextInput, View, Button, StyleSheet, Alert, ScrollView, FlatList,
+  Text, View, Button, StyleSheet, ScrollView, FlatList,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -148,6 +148,7 @@ class FeedScreen extends Component {
                   <Text>{item.text}</Text>
                   <Text>
                     Likes:
+                    {' '}
                     {item.numLikes}
                   </Text>
 
