@@ -1,180 +1,176 @@
 import React, { Component, useState } from 'react';
-import { Text, TextInput, View, Button, StyleSheet, Alert, ScrollView } from 'react-native';
+import {
+  Text, TextInput, View, Button, StyleSheet, Alert, ScrollView,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storeData = async (value) => {
   try {
-    const jsonValue = JSON.stringify(value)
-    await AsyncStorage.setItem('@spacebook_details', jsonValue)
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('@spacebook_details', jsonValue);
   } catch (e) {
-      console.error(error);
+    console.error(error);
   }
-}
-
+};
 
 class LoginScreen extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      email: "SA@mmu.ac.uk",
-      password: "hello123",
-      incorrect_details: false
+      email: 'SA@mmu.ac.uk',
+      password: 'hello123',
+      incorrect_details: false,
     };
   }
 
-  componentDidMount(){
-    this.setState({incorrect_details: false});
+  componentDidMount() {
+    this.setState({ incorrect_details: false });
   }
 
   refresh = this.props.navigation.addListener('focus', () => {
-    this.setState({incorrect_details: false});
+    this.setState({ incorrect_details: false });
   });
-
 
   login = () => {
     fetch('http://localhost:3333/api/1.0.0/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password
-        })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      }),
     })
-    .then((response) => response.json())
-    .then((json) => {
+      .then((response) => response.json())
+      .then((json) => {
         console.log(json);
         storeData(json);
-        this.props.navigation.navigate("Home");
-    })
-    .catch((error) => {
+        this.props.navigation.navigate('Home');
+      })
+      .catch((error) => {
         console.error(error);
-        this.setState({incorrect_details: true});
-    });
-}
+        this.setState({ incorrect_details: true });
+      });
+  };
 
   render() {
-
     if (!this.state.incorrect_details) {
-        return (
-          <View style={styles.flexContainer} >
-
-            <View style={styles.flexContainer} >
-            
-            <View>
-              <Text>Email Address:</Text>
-              <TextInput 
-              style = {styles.inputStyle}
-              placeholder = "Enter email"
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
-              />
-            </View>
-            
-            <View>
-              <Text>Password:</Text>
-              <TextInput
-              style = {styles.inputStyle}
-              placeholder = "Enter password"
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-              secureTextEntry={true}
-              />
-            </View>
-
-            </View>
-
-              <View style = {styles.buttonContainer}>
-                <Button
-                style = {styles.buttonStyle}
-                title="Login"
-                onPress={() => this.login()}
-                />
-
-                <Button
-                style = {styles.buttonStyle}
-                title="Signup"
-                onPress={() => this.props.navigation.navigate("Signup")}
-                />
-              </View>
-          </View>
-      );
-    }
-    else {
       return (
-        <View style={styles.flexContainer} >
-          <View style={styles.flexContainer} >
+        <View style={styles.flexContainer}>
+
+          <View style={styles.flexContainer}>
 
             <View>
               <Text>Email Address:</Text>
-              <TextInput 
-              style = {styles.inputStyle}
-              placeholder = "Enter email"
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
+              <TextInput
+                style={styles.inputStyle}
+                placeholder="Enter email"
+                onChangeText={(email) => this.setState({ email })}
+                value={this.state.email}
               />
             </View>
-            
+
             <View>
               <Text>Password:</Text>
               <TextInput
-              style = {styles.inputStyle}
-              placeholder = "Enter password"
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-              secureTextEntry={true}
+                style={styles.inputStyle}
+                placeholder="Enter password"
+                onChangeText={(password) => this.setState({ password })}
+                value={this.state.password}
+                secureTextEntry
               />
             </View>
 
-            <Text>Incorrect login details entered</Text>
-
           </View>
 
-            <View style = {styles.buttonContainer}>
-              <Button
-              style = {styles.buttonStyle}
+          <View style={styles.buttonContainer}>
+            <Button
+              style={styles.buttonStyle}
               title="Login"
               onPress={() => this.login()}
-              />
+            />
 
-              <Button
-              style = {styles.buttonStyle}
+            <Button
+              style={styles.buttonStyle}
               title="Signup"
-              onPress={() => this.props.navigation.navigate("Signup")}
-              />
-            </View>
+              onPress={() => this.props.navigation.navigate('Signup')}
+            />
+          </View>
         </View>
       );
     }
-  }
 
+    return (
+      <View style={styles.flexContainer}>
+        <View style={styles.flexContainer}>
+
+          <View>
+            <Text>Email Address:</Text>
+            <TextInput
+              style={styles.inputStyle}
+              placeholder="Enter email"
+              onChangeText={(email) => this.setState({ email })}
+              value={this.state.email}
+            />
+          </View>
+
+          <View>
+            <Text>Password:</Text>
+            <TextInput
+              style={styles.inputStyle}
+              placeholder="Enter password"
+              onChangeText={(password) => this.setState({ password })}
+              value={this.state.password}
+              secureTextEntry
+            />
+          </View>
+
+          <Text>Incorrect login details entered</Text>
+
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.buttonStyle}
+            title="Login"
+            onPress={() => this.login()}
+          />
+
+          <Button
+            style={styles.buttonStyle}
+            title="Signup"
+            onPress={() => this.props.navigation.navigate('Signup')}
+          />
+        </View>
+      </View>
+    );
+  }
 }
 
-
 const styles = StyleSheet.create({
-    flexContainer: {
-        flex: 1,
-        flexDirection: 'column', 
-        justifyContent: 'space-around', 
-    },
+  flexContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
 
-    buttonContainer: {
-      flex: 1,
-      flexDirection: 'row', 
-      justifyContent: 'space-around', 
-      alignItems: 'flex-start' 
-    },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+  },
 
-    buttonStyle: {
-        width: 50,
-        height: 50,
-        
-    },
+  buttonStyle: {
+    width: 50,
+    height: 50,
 
-    inputStyle: {
-        width: '50%'
-    }
+  },
+
+  inputStyle: {
+    width: '50%',
+  },
 });
 
-export default LoginScreen
+export default LoginScreen;
