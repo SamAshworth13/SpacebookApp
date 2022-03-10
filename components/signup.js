@@ -7,10 +7,10 @@ class SignupScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
+      first_name: 'Gary',
+      last_name: 'Barlow',
+      email: 'GB@mmu.ac.uk',
+      password: 'hello123',
       bad_details: false,
     };
   }

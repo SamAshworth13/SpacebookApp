@@ -22,7 +22,6 @@ class RequestsScreen extends Component {
       login_info: {},
       isLoading: true,
       outstanding: [],
-      other_user_id: {},
     };
   }
 
@@ -30,7 +29,7 @@ class RequestsScreen extends Component {
     getData((data) => {
       this.setState({
         login_info: data,
-        isLoading: false,
+        isLoading: true,
         outstanding: [],
       });
       this.getRequests();
@@ -41,7 +40,7 @@ class RequestsScreen extends Component {
     getData((data) => {
       this.setState({
         login_info: data,
-        isLoading: false,
+        isLoading: true,
         outstanding: [],
       });
 
@@ -71,9 +70,9 @@ class RequestsScreen extends Component {
       });
   };
 
-  acceptRequest = () => {
+  acceptRequest = (other_user_id) => {
     console.log('Accepting friend request...');
-    return fetch(`http://localhost:3333/api/1.0.0/friendrequests/${this.state.other_user_id}`, {
+    return fetch(`http://localhost:3333/api/1.0.0/friendrequests/${other_user_id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,17 +83,18 @@ class RequestsScreen extends Component {
       .then((responseJson) => {
         console.log(responseJson);
         this.setState({
-          isLoading: false,
+          isLoading: true,
         });
       })
+      .then(this.getRequests())
       .catch((error) => {
         console.log(error);
       });
   };
 
-  deleteRequest = () => {
+  deleteRequest = (other_user_id) => {
     console.log('Deleting friend request...');
-    return fetch(`http://localhost:3333/api/1.0.0/friendrequests/${this.state.other_user_id}`, {
+    return fetch(`http://localhost:3333/api/1.0.0/friendrequests/${other_user_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -105,9 +105,10 @@ class RequestsScreen extends Component {
       .then((responseJson) => {
         console.log(responseJson);
         this.setState({
-          isLoading: false,
+          isLoading: true,
         });
       })
+      .then(this.getRequests())
       .catch((error) => {
         console.log(error);
       });
@@ -141,8 +142,8 @@ class RequestsScreen extends Component {
                       style={styles.buttonStyle}
                       title="Accept"
                       onPress={() => {
-                        this.setState({ other_user_id: item.user_id }, () => {
-                          this.acceptRequest();
+                        this.acceptRequest(item.user_id);
+                        this.setState({ outstanding: {}, isLoading: true }, () => {
                           this.getRequests();
                         });
                       }}
@@ -152,8 +153,8 @@ class RequestsScreen extends Component {
                       style={styles.buttonStyle}
                       title="Delete"
                       onPress={() => {
-                        this.setState({ other_user_id: item.user_id }, () => {
-                          this.deleteRequest();
+                        this.deleteRequest(item.user_id);
+                        this.setState({ outstanding: {}, isLoading: true }, () => {
                           this.getRequests();
                         });
                       }}
